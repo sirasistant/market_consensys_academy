@@ -33,3 +33,5 @@ app.service("market",require("./market.service.js"));
 app.directive("products",require("./products/products.js"));
 app.directive("navigation",require("./nav/nav.js"));
 app.directive("toolbar",require("./toolbar/toolbar.js"));
+
+app.directive("sellers",require("./toolbar/sellers/sellers.js"));
