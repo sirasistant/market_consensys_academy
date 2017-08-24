@@ -1,0 +1,40 @@
+{
+  "contract_name": "Owned",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "kill",
+      "outputs": [
+        {
+          "name": "success",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "payable": false,
+      "type": "constructor"
+    }
+  ],
+  "unlinked_binary": "0x6060604052341561000f57600080fd5b5b60008054600160a060020a03191633600160a060020a03161790555b5b60e48061003b6000396000f300606060405263ffffffff60e060020a60003504166341c0e1b58114602d5780638da5cb5b146051575b600080fd5b3415603757600080fd5b603d607d565b604051901515815260200160405180910390f35b3415605b57600080fd5b606160a9565b604051600160a060020a03909116815260200160405180910390f35b6000805433600160a060020a03908116911614609857600080fd5b600054600160a060020a0316ff5b90565b600054600160a060020a0316815600a165627a7a72305820f4f089ac6baf4a5dd9ec0947977b54e412307e5cd509e4433866964aef13b1b70029",
+  "networks": {},
+  "schema_version": "0.0.5",
+  "updated_at": 1503567278110
+}

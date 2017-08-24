@@ -1,0 +1,12 @@
+body {
+  padding-top: 20px;
+}
+button {
+  text-transform: uppercase;
+}
+.money {
+  padding-bottom: 20px;
+}
+.clearfix {
+  clear: both;
+}
