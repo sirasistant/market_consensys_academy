@@ -10,42 +10,32 @@ module.exports = ['$rootScope', '$timeout', 'market', function ($rootScope, $tim
         templateUrl: './products/products.html',
         link: function (scope, element, attrs) {
 
-            function mapProduct(array) {
-                return {
-                    amount: array[0].toNumber(),
-                    priceToShow: web3.fromWei(array[1].toNumber(), 'ether'),
-                    price: array[1],
-                    name: web3.toAscii(array[2]),
-                    seller: array[3]
-                }
-
-            }
-
             var instance = scope.instance;
-            var buyListener;
 
-            buyListener = $rootScope.$on("LogBuy", (event, args) => {
-                instance.products(args.index).then((array) => {
+            var buyListener = $rootScope.$on("LogBuy", (event, args) => {
+                market.getProduct(instance,args.index).then((product) => {
                     if (scope.products)
-                        scope.products[args.index.toNumber()] = mapProduct(array);
+                        scope.products[args.index.toNumber()] = product;
                     scope.$apply();
-                })
-            })
+                });
+            });
 
-            addProductListener = $rootScope.$on("LogAddProduct", (event, args) => {
+            var stockChangedListener = $rootScope.$on("LogStockChanged", (event, args) => {
+                market.getProduct(instance,args.index).then((product) => {
+                    if (scope.products)
+                        scope.products[args.index.toNumber()] = product;
+                    scope.$apply();
+                });
+            });
+
+            var addProductListener = $rootScope.$on("LogAddProduct", (event, args) => {
                 reloadProducts();
             })
 
             function reloadProducts() {
-                instance.getProductsCount().then(count => {
-                    count = count.toNumber();
-                    var getProductPromises = [];
-                    for (var i = 0; i < count; i++) {
-                        getProductPromises.push(instance.products(i));
-                    }
-                    return Promise.all(getProductPromises);
-                }).then(products => {
-                    scope.products = products.map(mapProduct);
+                market.getProducts(instance).then(products => {
+                    scope.products = products;
+                    scope.$apply();
                 })
             };
 
@@ -61,6 +51,7 @@ module.exports = ['$rootScope', '$timeout', 'market', function ($rootScope, $tim
             scope.$on("destroy", () => {
                 buyListener();
                 addProductListener();
+                stockChangedListener();
             })
         }
     };

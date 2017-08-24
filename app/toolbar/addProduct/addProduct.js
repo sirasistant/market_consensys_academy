@@ -17,6 +17,10 @@ module.exports = ['$rootScope', '$timeout', 'market',function ($rootScope, $time
                 }).catch((err)=>console.error(err));
             }
 
+            scope.cancel = ()=>{
+                scope.$parent.$uibModalInstance.dismiss();
+            }
+
         }
     };
 }];

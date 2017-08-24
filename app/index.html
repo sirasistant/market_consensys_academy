@@ -19,6 +19,7 @@
     <div class="container">
         <navigation instance="instance"></navigation>
         <toolbar ng-if="account&&instance" instance="instance" account="account"></toolbar>
+        <money ng-if="account&&instance" instance="instance" account="account"></money>
         <products ng-if="account&&instance" instance="instance" account="account"></products>
     </div>
 

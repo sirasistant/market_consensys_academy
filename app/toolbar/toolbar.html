@@ -5,8 +5,8 @@
                 <button type="button" ng-if="isAdmin" ng-click="openAdmins()"  class="btn btn-primary">Manage admins</button>
                 <button type="button" ng-if="isAdmin" ng-click="openSellers()" class="btn btn-primary">Manage sellers</button>
                 <button type="button" ng-if="isSeller" ng-click="addProduct()" class="btn btn-primary">Add product</button>
-                <button type="button" ng-if="isSeller" class="btn btn-primary">Set product stock</button>
-                <button type="button" ng-if="isOwner" class="btn btn-danger">Kill contract</button>
+                <button type="button" ng-if="isSeller" ng-click="setStock()" class="btn btn-primary">Set product stock</button>
+                <button type="button" ng-if="isOwner" ng-click="kill()" class="btn btn-danger">Kill contract</button>
             </div>
         </div>
     </div>

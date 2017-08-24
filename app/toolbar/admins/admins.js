@@ -35,6 +35,7 @@ module.exports = ['$rootScope', '$timeout', 'market',function ($rootScope, $time
                     scope.$parent.$uibModalInstance.close();
                 }).catch((err)=>console.error(err));
             }
+            
         }
     };
 }];

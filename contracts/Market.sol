@@ -36,6 +36,7 @@ contract Wallet{
     function addMoney(address account, uint amount)
     internal{
         balances[account] += amount;
+        LogMoneyAdded(account,amount);
     }
 }
 

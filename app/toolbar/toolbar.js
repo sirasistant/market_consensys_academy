@@ -72,6 +72,23 @@ module.exports = ['$rootScope', '$timeout', 'market', '$uibModal', function ($ro
                 }, () => { });
             };
 
+            scope.setStock = function () {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    component: 'setStock',
+                    resolve: {
+                    }
+                });
+
+                modalInstance.result.then(() => {
+
+                }, () => { });
+            };
+
+            scope.kill = function(){
+                scope.instance.kill({from:scope.account}).then(()=>alert("KILLED CONTRACT"));
+            }
+
         }
     };
 }];

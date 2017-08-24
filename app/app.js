@@ -29,9 +29,11 @@ app.run(['$rootScope', 'market', function ($rootScope, market) {
 
     market.getContract().deployed().then(_instance => {
         $rootScope.instance = _instance;
+        $rootScope.$apply();
         var events = _instance.allEvents((error, log) => {
             if (!error)
                 $rootScope.$broadcast(log.event,log.args);
+            $rootScope.$apply();
         });
     });
 
@@ -46,3 +48,5 @@ app.directive("toolbar", require("./toolbar/toolbar.js"));
 app.directive("sellers", require("./toolbar/sellers/sellers.js"));
 app.directive("admins", require("./toolbar/admins/admins.js"));
 app.directive("addProduct", require("./toolbar/addProduct/addProduct.js"));
+app.directive("setStock", require("./toolbar/setStock/setStock.js"));
+app.directive("money", require("./money/money.js"));
