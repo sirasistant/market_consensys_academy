@@ -2,7 +2,7 @@ module.exports = ['$rootScope', '$timeout',function ($rootScope, $timeout) {
     return {
         restrict: 'E',
         scope: {
-           
+           instance:"=instance"
         },
         templateUrl: './nav/nav.html',
         link: function (scope, element, attrs) {

@@ -17,9 +17,9 @@
 <body ng-cloak>
 
     <div class="container">
-        <navigation></navigation>
-        <toolbar ng-if="account" account="account"></toolbar>
-        <products ng-if="account" account="account"></products>
+        <navigation instance="instance"></navigation>
+        <toolbar ng-if="account&&instance" instance="instance" account="account"></toolbar>
+        <products ng-if="account&&instance" instance="instance" account="account"></products>
     </div>
 
     <script>

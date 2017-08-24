@@ -7,7 +7,7 @@ if (typeof web3 !== 'undefined') {
     window.web3 = new Web3(web3.currentProvider);
 } else {
     // Your preferred fallback.
-    window.web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545')); 
+    window.web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
 }
 Promise.promisifyAll(web3.eth, { suffix: "Promise" });
 Promise.promisifyAll(web3.version, { suffix: "Promise" });
@@ -15,23 +15,34 @@ Promise.promisifyAll(web3.version, { suffix: "Promise" });
 var app = angular.module('Market', ['ui.bootstrap']);
 
 app.config(function ($locationProvider) {
-  $locationProvider.html5Mode(false);
+    $locationProvider.html5Mode(false);
 });
 
-app.run(['$rootScope',function($rootScope){
+app.run(['$rootScope', 'market', function ($rootScope, market) {
     web3.eth.getAccountsPromise()
-    .then(accounts => {
-        if (accounts.length > 0) {
-            $rootScope.account = accounts[0];
-            $rootScope.$apply();
-        }
-    }).catch(console.error);
+        .then(accounts => {
+            if (accounts.length > 0) {
+                $rootScope.account = accounts[0];
+                $rootScope.$apply();
+            }
+        }).catch(console.error);
+
+    market.getContract().deployed().then(_instance => {
+        $rootScope.instance = _instance;
+        var events = _instance.allEvents((error, log) => {
+            if (!error)
+                $rootScope.$broadcast(log.event,log.args);
+        });
+    });
+
 }]);
 
-app.service("market",require("./market.service.js"));
+app.service("market", require("./market.service.js"));
 
-app.directive("products",require("./products/products.js"));
-app.directive("navigation",require("./nav/nav.js"));
-app.directive("toolbar",require("./toolbar/toolbar.js"));
+app.directive("products", require("./products/products.js"));
+app.directive("navigation", require("./nav/nav.js"));
+app.directive("toolbar", require("./toolbar/toolbar.js"));
 
-app.directive("sellers",require("./toolbar/sellers/sellers.js"));
+app.directive("sellers", require("./toolbar/sellers/sellers.js"));
+app.directive("admins", require("./toolbar/admins/admins.js"));
+app.directive("addProduct", require("./toolbar/addProduct/addProduct.js"));

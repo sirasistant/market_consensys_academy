@@ -104,14 +104,20 @@ contract Market is Owned,Wallet {
     returns(bool success){
         require(account!=owner);
         bool found = false;
+        uint index = 0;
         for(uint i =0;i<admins.length;i++){
             if(admins[i]==account){
-                found = true;
+                found = true;    
+                index = i;
                 delete admins[i];
                 break;
             }
         }
         require(found);
+         if(admins.length>1&&index!=admins.length-1){
+            admins[index] = admins[sellers.length-1];
+        }
+        admins.length--;
         LogRemoveAdmin(account);
         return true;
     }
@@ -130,14 +136,20 @@ contract Market is Owned,Wallet {
     onlyAdmin()
     returns(bool success){
         bool found = false;
+        uint index = 0;
         for(uint i =0;i<sellers.length;i++){
             if(sellers[i]==account){
                 found = true;
+                index = i;
                 delete sellers[i];
                 break;
             }
         }
         require(found);
+        if(sellers.length>1&&index!=sellers.length-1){
+            sellers[index] = sellers[sellers.length-1];
+        }
+        sellers.length--;
         LogRemoveSeller(account);
         return true;
     }

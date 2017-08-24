@@ -6,32 +6,32 @@ module.exports = ['$rootScope', '$timeout', 'market',function ($rootScope, $time
         scope: {
             
         },
-        templateUrl: './toolbar/sellers/sellers.html',
+        templateUrl: './toolbar/admins/admins.html',
         link: function (scope, element, attrs) {
             var instance =scope.$root.instance;
             var account = scope.$root.account;
 
-            instance.getSellersCount()
+            instance.getAdminsCount()
             .then(count => {
                 count = count.toNumber();
-                var getSellersPromises = [];
+                var getAdminsPromises = [];
                 for (var i = 0; i < count; i++) {
-                    getSellersPromises.push(instance.sellers(i));
+                    getAdminsPromises.push(instance.admins(i));
                 }
-                return Promise.all(getSellersPromises);
-            }).then(sellers=>{
-                scope.sellers = sellers;
+                return Promise.all(getAdminsPromises);
+            }).then(admins=>{
+                scope.admins = admins;
                 scope.$apply();
             })
             
-            scope.createSeller=()=>{
-                instance.addSeller(scope.newSeller,{from:account}).then(()=>{
+            scope.createAdmin=()=>{
+                instance.addAdmin(scope.newAdmin,{from:account}).then(()=>{
                     scope.$parent.$uibModalInstance.close();
                 }).catch((err)=>console.error(err));
             }
 
-            scope.deleteSeller = (seller)=>{
-                instance.deleteSeller(seller,{from:account}).then(()=>{
+            scope.deleteAdmin = (admin)=>{
+                instance.deleteAdmin(admin,{from:account}).then(()=>{
                     scope.$parent.$uibModalInstance.close();
                 }).catch((err)=>console.error(err));
             }

@@ -4,17 +4,16 @@ module.exports = ['$rootScope', '$timeout', 'market', '$uibModal', function ($ro
     return {
         restrict: 'E',
         scope: {
-            account: "=account"
+            account: "=account",
+            instance:"=instance"
         },
         templateUrl: './toolbar/toolbar.html',
         link: function (scope, element, attrs) {
 
             var reloadPrivileges = function () {
-                var instance;
-                market.getContract().deployed().then(_instance => {
-                    instance = _instance;
-                    return Promise.all([instance.getAdminsCount(), instance.getSellersCount()]);
-                }).then(counts => {
+                var instance = scope.instance;
+                return Promise.all([instance.getAdminsCount(), instance.getSellersCount()])
+                .then(counts => {
                     return Promise.all(counts.map((count, index) => {
                         var arr = [];
                         for (var i = 0; i < count.toNumber(); i++) {
@@ -44,9 +43,33 @@ module.exports = ['$rootScope', '$timeout', 'market', '$uibModal', function ($ro
 
                 modalInstance.result.then(() => {
                     reloadPrivileges();
-                }, () => {
-                    $log.info('modal-component dismissed at: ' + new Date());
+                }, () => { });
+            };
+            
+            scope.openAdmins = function(){
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    component: 'admins',
+                    resolve: {
+                    }
                 });
+
+                modalInstance.result.then(() => {
+                    reloadPrivileges();
+                }, () => { });
+            }
+
+            scope.addProduct = function () {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    component: 'addProduct',
+                    resolve: {
+                    }
+                });
+
+                modalInstance.result.then(() => {
+
+                }, () => { });
             };
 
         }
