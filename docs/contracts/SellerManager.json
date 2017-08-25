@@ -1,0 +1,82 @@
+{
+  "contract_name": "SellerManager",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "index",
+          "type": "uint256"
+        }
+      ],
+      "name": "getSellerAt",
+      "outputs": [
+        {
+          "name": "seller",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getSellersCount",
+      "outputs": [
+        {
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "isSeller",
+      "outputs": [
+        {
+          "name": "isIndeed",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "LogAddSeller",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "LogRemoveSeller",
+      "type": "event"
+    }
+  ],
+  "unlinked_binary": "0x6060604052341561000f57600080fd5b5b6101618061001f6000396000f300606060405263ffffffff60e060020a60003504166392e8bb0f811461003a578063dd9d122d1461006c578063ee95feaf14610091575b600080fd5b341561004557600080fd5b6100506004356100c4565b604051600160a060020a03909116815260200160405180910390f35b341561007757600080fd5b61007f61010c565b60405190815260200160405180910390f35b341561009c57600080fd5b6100b0600160a060020a0360043516610113565b604051901515815260200160405180910390f35b6001546000908290116100d657600080fd5b60018054839081106100e457fe5b906000526020600020900160005b9054906101000a9004600160a060020a031690505b919050565b6001545b90565b600160a060020a03811660009081526020819052604090205460ff165b9190505600a165627a7a72305820c1c34bc3e440d4825445afc8081c2e4ffcec7771d48791644e96da8ed863c9c70029",
+  "networks": {},
+  "schema_version": "0.0.5",
+  "updated_at": 1503654764811
+}

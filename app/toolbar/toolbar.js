@@ -12,21 +12,19 @@ module.exports = ['$rootScope', '$timeout', 'market', '$uibModal', function ($ro
 
             var reloadPrivileges = function () {
                 var instance = scope.instance;
-                return Promise.all([instance.getAdminsCount(), instance.getSellersCount()])
-                .then(counts => {
-                    return Promise.all(counts.map((count, index) => {
-                        var arr = [];
-                        for (var i = 0; i < count.toNumber(); i++) {
-                            arr.push(index == 0 ? instance.admins(i) : instance.sellers(i))
-                        }
-                        return Promise.all(arr);
-                    }));
-                }).then(privilegedAccounts => {
-                    scope.isAdmin = privilegedAccounts[0].indexOf(scope.account) > -1;
-                    scope.isSeller = privilegedAccounts[1].indexOf(scope.account) > -1;
+                var isAdmin,isSeller= false;
+                return instance.isAdmin(scope.account)
+                .then(_isAdmin=>{
+                    isAdmin = _isAdmin;
+                    return instance.isSeller(scope.account);
+                })
+                .then(_isSeller => {
+                    isSeller = _isSeller;
                     return instance.owner();
                 }).then(owner => {
                     scope.isOwner = scope.account == owner;
+                    scope.isAdmin = isAdmin;
+                    scope.isSeller = isSeller;
                     scope.$apply();
                 }).catch(err => console.error(err));
             }

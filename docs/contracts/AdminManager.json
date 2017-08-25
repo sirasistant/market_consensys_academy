@@ -1,0 +1,82 @@
+{
+  "contract_name": "AdminManager",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "isAdmin",
+      "outputs": [
+        {
+          "name": "isIndeed",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "index",
+          "type": "uint256"
+        }
+      ],
+      "name": "getAdminAt",
+      "outputs": [
+        {
+          "name": "admin",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getAdminsCount",
+      "outputs": [
+        {
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "LogAddAdmin",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "LogRemoveAdmin",
+      "type": "event"
+    }
+  ],
+  "unlinked_binary": "0x6060604052341561000f57600080fd5b5b6101618061001f6000396000f300606060405263ffffffff60e060020a60003504166324d7806c811461003a5780634138624a1461006d578063e80415221461009f575b600080fd5b341561004557600080fd5b610059600160a060020a03600435166100c4565b604051901515815260200160405180910390f35b341561007857600080fd5b6100836004356100e6565b604051600160a060020a03909116815260200160405180910390f35b34156100aa57600080fd5b6100b261012e565b60405190815260200160405180910390f35b600160a060020a03811660009081526020819052604090205460ff165b919050565b6001546000908290116100f857600080fd5b600180548390811061010657fe5b906000526020600020900160005b9054906101000a9004600160a060020a031690505b919050565b6001545b905600a165627a7a723058205a16fab06b30fd78d7db95834cb68af13b6538b59104c9ddc47533f972673db30029",
+  "networks": {},
+  "schema_version": "0.0.5",
+  "updated_at": 1503654764810
+}

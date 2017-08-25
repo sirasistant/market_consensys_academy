@@ -75,6 +75,6 @@ gulp.task('watch', () => {
 });
 
 
-gulp.task('build:dev', gulp.series('frontend:clean', 'frontend:copy:html', 'frontend:copy:lib', 'frontend:copy:assets', 'frontend:less', 'frontend:compile'), 'bump:commit');
+gulp.task('build:dev', gulp.series('frontend:clean', 'frontend:copy:html', 'frontend:copy:lib', 'frontend:copy:assets', 'frontend:less', 'frontend:compile'));
 
-gulp.task('build:production', gulp.series('frontend:clean', 'frontend:copy:html', 'frontend:copy:lib', 'frontend:copy:assets', 'frontend:less', 'frontend:compile:minified'), 'bump:commit');
+gulp.task('build:production', gulp.series('frontend:clean', 'frontend:copy:html', 'frontend:copy:lib', 'frontend:copy:assets', 'frontend:less', 'frontend:compile:minified'));

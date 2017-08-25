@@ -16,7 +16,7 @@ module.exports = ['$rootScope', '$timeout', 'market',function ($rootScope, $time
                 count = count.toNumber();
                 var getAdminsPromises = [];
                 for (var i = 0; i < count; i++) {
-                    getAdminsPromises.push(instance.admins(i));
+                    getAdminsPromises.push(instance.getAdminAt(i));
                 }
                 return Promise.all(getAdminsPromises);
             }).then(admins=>{
@@ -25,7 +25,8 @@ module.exports = ['$rootScope', '$timeout', 'market',function ($rootScope, $time
             })
             
             scope.createAdmin=()=>{
-                instance.addAdmin(scope.newAdmin,{from:account}).then(()=>{
+                instance.addAdmin(scope.newAdmin,{from:account}).then((receipt)=>{
+                    console.log(receipt);
                     scope.$parent.$uibModalInstance.close();
                 }).catch((err)=>console.error(err));
             }

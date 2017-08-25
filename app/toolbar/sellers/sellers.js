@@ -16,7 +16,7 @@ module.exports = ['$rootScope', '$timeout', 'market',function ($rootScope, $time
                 count = count.toNumber();
                 var getSellersPromises = [];
                 for (var i = 0; i < count; i++) {
-                    getSellersPromises.push(instance.sellers(i));
+                    getSellersPromises.push(instance.getSellerAt(i));
                 }
                 return Promise.all(getSellersPromises);
             }).then(sellers=>{
