@@ -1,6 +1,6 @@
 var Promise = require("bluebird");
 
-module.exports = ['$rootScope', '$timeout', 'market', function ($rootScope, $timeout, market) {
+module.exports = ['$rootScope', '$timeout', 'market', 'notifications', function ($rootScope, $timeout, market, notifications) {
     return {
         restrict: 'E',
         scope: {
@@ -13,7 +13,7 @@ module.exports = ['$rootScope', '$timeout', 'market', function ($rootScope, $tim
             var instance = scope.instance;
 
             var buyListener = $rootScope.$on("LogBuy", (event, args) => {
-                market.getProduct(instance,args.index).then((product) => {
+                market.getProduct(instance, args.index).then((product) => {
                     if (scope.products)
                         scope.products[args.index.toNumber()] = product;
                     scope.$apply();
@@ -21,7 +21,7 @@ module.exports = ['$rootScope', '$timeout', 'market', function ($rootScope, $tim
             });
 
             var stockChangedListener = $rootScope.$on("LogStockChanged", (event, args) => {
-                market.getProduct(instance,args.index).then((product) => {
+                market.getProduct(instance, args.index).then((product) => {
                     if (scope.products)
                         scope.products[args.index.toNumber()] = product;
                     scope.$apply();
@@ -43,8 +43,9 @@ module.exports = ['$rootScope', '$timeout', 'market', function ($rootScope, $tim
 
             scope.buy = (product) => {
                 var index = scope.products.indexOf(product);
-                instance.buy(index, { from: scope.account, value: product.price }).then(() => {
-                    alert("Successfully bought " + product.name);
+                instance.buy.sendTransaction(index, { from: scope.account, value: product.price }).then((hash) => {
+                    notifications.addTransactionNotification(hash);
+                    $rootScope.$apply();
                 }).catch(err => console.error(err));
             }
 

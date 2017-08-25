@@ -41,6 +41,7 @@ app.run(['$rootScope', 'market', function ($rootScope, market) {
 }]);
 
 app.service("market", require("./market.service.js"));
+app.service("notifications", require("./notifications.service.js"));
 
 app.directive("products", require("./products/products.js"));
 app.directive("navigation", require("./nav/nav.js"));
@@ -51,3 +52,4 @@ app.directive("admins", require("./toolbar/admins/admins.js"));
 app.directive("addProduct", require("./toolbar/addProduct/addProduct.js"));
 app.directive("setStock", require("./toolbar/setStock/setStock.js"));
 app.directive("money", require("./money/money.js"));
+app.directive("notifications", require("./notifications/notifications.js"));

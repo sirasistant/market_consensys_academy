@@ -1,6 +1,6 @@
 var Promise = require("bluebird");
 
-module.exports = ['$rootScope', '$timeout', 'market', function ($rootScope, $timeout, market) {
+module.exports = ['$rootScope', '$timeout', 'market','notifications', function ($rootScope, $timeout, market,notifications) {
     return {
         restrict: 'E',
         scope: {
@@ -30,7 +30,10 @@ module.exports = ['$rootScope', '$timeout', 'market', function ($rootScope, $tim
             reloadMoney();
 
             scope.withdraw = ()=>{
-                instance.withdraw({from:account});
+                instance.withdraw.sendTransaction({from:account}).then((hash) => {
+                    notifications.addTransactionNotification(hash);
+                    $rootScope.$apply();
+                }).catch(err => console.error(err));;
             }
 
             scope.$on("destroy", () => {

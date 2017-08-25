@@ -1,6 +1,6 @@
 var Promise = require("bluebird");
 
-module.exports = ['$rootScope', '$timeout', 'market',function ($rootScope, $timeout, market) {
+module.exports = ['$rootScope', '$timeout', 'market','notifications', function ($rootScope, $timeout, market,notifications) {
     return {
         restrict: 'E',
         scope: {
@@ -25,16 +25,19 @@ module.exports = ['$rootScope', '$timeout', 'market',function ($rootScope, $time
             })
             
             scope.createAdmin=()=>{
-                instance.addAdmin(scope.newAdmin,{from:account}).then((receipt)=>{
-                    console.log(receipt);
+                instance.addAdmin.sendTransaction(scope.newAdmin,{from:account}).then((hash) => {
+                    notifications.addTransactionNotification(hash);
                     scope.$parent.$uibModalInstance.close();
-                }).catch((err)=>console.error(err));
+                    $rootScope.$apply();
+                }).catch(err => console.error(err));
             }
 
             scope.deleteAdmin = (admin)=>{
-                instance.deleteAdmin(admin,{from:account}).then(()=>{
+                instance.deleteAdmin.sendTransaction(admin,{from:account}).then((hash) => {
+                    notifications.addTransactionNotification(hash);
                     scope.$parent.$uibModalInstance.close();
-                }).catch((err)=>console.error(err));
+                    $rootScope.$apply();
+                }).catch(err => console.error(err));
             }
             
         }

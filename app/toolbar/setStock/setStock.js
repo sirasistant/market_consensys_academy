@@ -1,6 +1,6 @@
 var Promise = require("bluebird");
 
-module.exports = ['$rootScope', '$timeout', 'market',function ($rootScope, $timeout, market) {
+module.exports = ['$rootScope', '$timeout', 'market','notifications', function ($rootScope, $timeout, market,notifications) {
     return {
         restrict: 'E',
         scope: {
@@ -22,9 +22,11 @@ module.exports = ['$rootScope', '$timeout', 'market',function ($rootScope, $time
             reloadProducts();
 
             scope.setStock = ()=>{
-                instance.setProductStock(scope.products.indexOf(scope.product),scope.product.amount,{from:account}).then(()=>{
+                instance.setProductStock.sendTransaction(scope.products.indexOf(scope.product),scope.product.amount,{from:account}).then((hash) => {
+                    notifications.addTransactionNotification(hash);
                     scope.$parent.$uibModalInstance.close();
-                }).catch((err)=>console.error(err));
+                    $rootScope.$apply();
+                }).catch(err => console.error(err));
             }
 
             scope.cancel = ()=>{
