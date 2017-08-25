@@ -106,7 +106,7 @@ contract('Market', function (accounts) {
         sellerAccountBalance = sellerAccountBalance.minus(receipts[1].receipt.gasUsed * gasPrice);
         return Promise.all([accounts[0], accounts[2]].map(account => getBalance(account)));
       }).then((accountBalances) => {
-        //assert.equal(accountBalances[0].toString(10), ownerAccountBalance.add(fee + overpay).toString(10), "Did not retrieve the amount of the owner correctly");
+        assert.equal(accountBalances[0].toString(10), ownerAccountBalance.add(fee + overpay).toString(10), "Did not retrieve the amount of the owner correctly");
         assert.equal(accountBalances[1].toString(10), sellerAccountBalance.add(price - fee).toString(10), "Did not retrieve the amount of the seller correctly");
       });
   });
