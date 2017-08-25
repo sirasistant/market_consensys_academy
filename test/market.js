@@ -1,5 +1,17 @@
 var Market = artifacts.require("./Market.sol");
 
+const promisify = (inner) =>
+  new Promise((resolve, reject) =>
+    inner((err, res) => {
+      if (err) { reject(err) }
+      resolve(res);
+    })
+  );
+
+const getBalance = (account, at) =>
+  promisify(cb => web3.eth.getBalance(account, at, cb));
+
+
 contract('Market', function (accounts) {
   var instance;
   var fee = 4;
@@ -53,20 +65,49 @@ contract('Market', function (accounts) {
     var overpay = 5;
     return instance.addSeller(accounts[2], { from: accounts[0] })
       .then(() => {
-        return instance.addProduct(price,2,"Producto", { from: accounts[2] })
+        return instance.addProduct(price, 2, "Producto", { from: accounts[2] })
       })
       .then(() => {
         return instance.getProductsCount();
       }).then((productsCount) => {
-        assert.equal("1", productsCount.toString(10),"Did not add the product correctly");
-        return instance.buy(0,{from:accounts[1],value:price+overpay});
+        assert.equal("1", productsCount.toString(10), "Did not add the product correctly");
+        return instance.buy(0, { from: accounts[1], value: price + overpay });
       }).then(() => {
-        return instance.balances( accounts[2] );
-      }).then((sellerBalance)=>{
-        assert.equal(sellerBalance.toString(10), ""+(price-fee),"Did not update the amount of the seller correctly");
+        return instance.balances(accounts[2]);
+      }).then((sellerBalance) => {
+        assert.equal(sellerBalance.toString(10), "" + (price - fee), "Did not update the amount of the seller correctly");
         return instance.balances(accounts[0])
-      }).then((ownerBalance)=>{
-        assert.equal(ownerBalance.toString(10), ""+(fee+overpay),"Did not update the amount of the owner correctly");
+      }).then((ownerBalance) => {
+        assert.equal(ownerBalance.toString(10), "" + (fee + overpay), "Did not update the amount of the owner correctly");
+      });
+  });
+
+  it("should manage money", () => {
+    var price = 100;
+    var overpay = 5;
+    var gasPrice = 40000000;
+    var ownerAccountBalance, sellerAccountBalance;
+    return instance.addSeller(accounts[2], { from: accounts[0] })
+      .then(() => {
+        return instance.addProduct(price, 2, "Producto", { from: accounts[2] })
+      })
+      .then(() => {
+        return instance.getProductsCount();
+      }).then((productsCount) => {
+        return instance.buy(0, { from: accounts[1], value: price + overpay });
+      }).then(() => {
+        return Promise.all([accounts[0], accounts[2]].map(account => getBalance(account)));
+      }).then((accountBalances) => {
+        ownerAccountBalance = accountBalances[0];
+        sellerAccountBalance = accountBalances[1];
+        return Promise.all([accounts[0], accounts[2]].map(account => instance.withdraw({ from: account, gasPrice: gasPrice })));
+      }).then((receipts) => {
+        ownerAccountBalance = ownerAccountBalance.minus(receipts[0].receipt.gasUsed * gasPrice);
+        sellerAccountBalance = sellerAccountBalance.minus(receipts[1].receipt.gasUsed * gasPrice);
+        return Promise.all([accounts[0], accounts[2]].map(account => getBalance(account)));
+      }).then((accountBalances) => {
+        //assert.equal(accountBalances[0].toString(10), ownerAccountBalance.add(fee + overpay).toString(10), "Did not retrieve the amount of the owner correctly");
+        assert.equal(accountBalances[1].toString(10), sellerAccountBalance.add(price - fee).toString(10), "Did not retrieve the amount of the seller correctly");
       });
   });
 
