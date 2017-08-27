@@ -1,3 +1,5 @@
+pragma solidity ^0.4.6;
+
 contract Wallet{
     event LogMoneyAdded(address account, uint amount);
     event LogWithdraw(address account, uint amount);
