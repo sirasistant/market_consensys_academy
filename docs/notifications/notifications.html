@@ -1,0 +1,8 @@
+
+<div class="notifications">
+    <div uib-alert ng-repeat="notification in notifications" ng-class="'alert-' + (notification.type || 'warning')" close="dismiss(notification)">
+        <span ng-if="!notification.mined&&!notification.error">Mining transaction {{notification.hash}}</span>
+        <span ng-if="notification.mined&&!notification.error">Transaction {{notification.hash}} mined</span>
+        <span ng-if="notification.error">{{notification.error}}</span>
+    </div>
+</div>

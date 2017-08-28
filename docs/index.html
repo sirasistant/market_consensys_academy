@@ -15,7 +15,7 @@
 </head>
 
 <body ng-cloak>
-
+    <notifications ng-if="notifications" notifications="notifications"></notifications>
     <div class="container">
         <navigation instance="instance"></navigation>
         <toolbar ng-if="account&&instance" instance="instance" account="account"></toolbar>

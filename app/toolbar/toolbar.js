@@ -1,37 +1,32 @@
 var Promise = require("bluebird");
 
-module.exports = ['$rootScope', '$timeout', 'market', '$uibModal', function ($rootScope, $timeout, market, $uibModal) {
+module.exports = ['$rootScope', '$timeout', 'market', '$uibModal','notifications', function ($rootScope, $timeout, market, $uibModal,notifications) {
     return {
         restrict: 'E',
         scope: {
             account: "=account",
-            instance:"=instance"
+            instance: "=instance"
         },
         templateUrl: './toolbar/toolbar.html',
         link: function (scope, element, attrs) {
 
-            var reloadPrivileges = function () {
-                var instance = scope.instance;
-                var isAdmin,isSeller= false;
-                return instance.isAdmin(scope.account)
-                .then(_isAdmin=>{
-                    isAdmin = _isAdmin;
-                    return instance.isSeller(scope.account);
-                })
-                .then(_isSeller => {
-                    isSeller = _isSeller;
-                    return instance.owner();
-                }).then(owner => {
-                    scope.isOwner = scope.account == owner;
-                    scope.isAdmin = isAdmin;
-                    scope.isSeller = isSeller;
+            var reloadPrivileges = async () => {
+                try {
+                    var instance = scope.instance;
+                    var isAdmin, isSeller = false;
+                    scope.isAdmin = await instance.isAdmin(scope.account);
+                    scope.isSeller = await instance.isSeller(scope.account);
+                    scope.isOwner = await instance.owner() == scope.account;
                     scope.$apply();
-                }).catch(err => console.error(err));
+                } catch (error) {
+                    console.log(error);
+                }
+
             }
 
             reloadPrivileges();
 
-            scope.openSellers = function () {
+            scope.openSellers = () => {
                 var modalInstance = $uibModal.open({
                     animation: true,
                     component: 'sellers',
@@ -43,8 +38,8 @@ module.exports = ['$rootScope', '$timeout', 'market', '$uibModal', function ($ro
                     reloadPrivileges();
                 }, () => { });
             };
-            
-            scope.openAdmins = function(){
+
+            scope.openAdmins = () => {
                 var modalInstance = $uibModal.open({
                     animation: true,
                     component: 'admins',
@@ -57,7 +52,7 @@ module.exports = ['$rootScope', '$timeout', 'market', '$uibModal', function ($ro
                 }, () => { });
             }
 
-            scope.addProduct = function () {
+            scope.addProduct = () => {
                 var modalInstance = $uibModal.open({
                     animation: true,
                     component: 'addProduct',
@@ -70,7 +65,7 @@ module.exports = ['$rootScope', '$timeout', 'market', '$uibModal', function ($ro
                 }, () => { });
             };
 
-            scope.setStock = function () {
+            scope.setStock = () => {
                 var modalInstance = $uibModal.open({
                     animation: true,
                     component: 'setStock',
@@ -83,8 +78,10 @@ module.exports = ['$rootScope', '$timeout', 'market', '$uibModal', function ($ro
                 }, () => { });
             };
 
-            scope.kill = function(){
-                scope.instance.kill({from:scope.account}).then(()=>alert("KILLED CONTRACT"));
+            scope.kill = async () => {
+                notifications.addTransactionNotification(await scope.instance.kill.sendTransaction({ from: scope.account }));
+                alert("KILLED CONTRACT");
+                scope.$apply();
             }
 
         }

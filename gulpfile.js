@@ -34,7 +34,8 @@ gulp.task('frontend:compile', () => {
             insertGlobals: false,
             debug: true,
             transform: ['brfs', babelify.configure({
-                presets: ["es2015"]
+                presets: ["es2015"],
+                plugins:["transform-regenerator"]
             })]
         })).on('error', (err) => {
             console.log(err.toString());
@@ -50,7 +51,8 @@ gulp.task('frontend:compile:minified', () => {
             insertGlobals: false,
             debug: true,
             transform: ['brfs', babelify.configure({
-                presets: ["es2015"]
+                presets: ["es2015"],
+                plugins:["transform-regenerator"]
             })]
         })).pipe(uglify().on('error', (err) => {
             console.log(err.toString());
