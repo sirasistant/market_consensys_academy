@@ -35,7 +35,14 @@ contract('Market', function (accounts) {
   });
 
   describe("Users", () => {
-    it("should add and delete sellers", async () => {
+
+    it("should add sellers", async () => {
+      await instance.addSeller(accounts[0], { from: accounts[0] });
+      var isSeller = await instance.isSeller(accounts[0]);
+      assert.equal(isSeller, true);
+    });
+
+    it("should delete sellers", async () => {
       await instance.addSeller(accounts[0], { from: accounts[0] });
       var isSeller = await instance.isSeller(accounts[0]);
       assert.equal(isSeller, true);
@@ -44,7 +51,12 @@ contract('Market', function (accounts) {
       assert.equal(isSeller, false);
     });
 
-    it("should add and delete admins", async () => {
+    it("should add admins", async () => {
+      await instance.addAdmin(accounts[1], { from: accounts[0] });
+      var isAdmin = await instance.isAdmin(accounts[1]);
+      assert.equal(isAdmin, true);
+    });
+    it("should delete admins", async () => {
       await instance.addAdmin(accounts[1], { from: accounts[0] });
       var isAdmin = await instance.isAdmin(accounts[1]);
       assert.equal(isAdmin, true);

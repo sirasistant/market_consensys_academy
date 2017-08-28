@@ -29,12 +29,12 @@ app.run(['$rootScope', 'market', function ($rootScope, market) {
         }).catch(console.error);
 
     market.getContract().deployed().then(_instance => {
-        console.log("Contract at "+_instance.address);
+        console.log("Contract at " + _instance.address);
         $rootScope.instance = _instance;
         $rootScope.$apply();
         var events = _instance.allEvents((error, log) => {
             if (!error)
-                $rootScope.$broadcast(log.event,log.args);
+                $rootScope.$broadcast(log.event, log.args);
             $rootScope.$apply();
         });
     });
