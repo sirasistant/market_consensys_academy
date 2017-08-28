@@ -20,7 +20,7 @@ module.exports = ['$rootScope', '$timeout', 'market', 'notifications', function 
             reloadProducts();
 
             scope.setStock = async () => {
-                var hash = await instance.setProductStock.sendTransaction(scope.products.indexOf(scope.product), scope.product.amount, { from: account });
+                var hash = await instance.setProductStock.sendTransaction(scope.product.id, scope.product.amount, { from: account });
                 notifications.addTransactionNotification(hash);
                 scope.$parent.$uibModalInstance.close();
                 $rootScope.$apply();

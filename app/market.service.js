@@ -17,17 +17,16 @@ module.exports = ['$rootScope', '$timeout', function ($rootScope, $timeout) {
     }
     return {
         getContract:function(){return Market;},
-        getProducts:function(instance){
-            return instance.getProductsCount().then(count => {
-                count = count.toNumber();
-                var getProductPromises = [];
-                for (var i = 0; i < count; i++) {
-                    getProductPromises.push(instance.products(i));
-                }
-                return Promise.all(getProductPromises);
-            }).then((products)=>{
-                return Promise.resolve(products.map(mapProduct));
-            })
+        getProducts:async function(instance){
+            var count = await instance.getProductsCount();
+            var products = [];
+            for(var i = 0;i<count;i++){
+                var id = await instance.productIds(i);
+                var product = mapProduct(await instance.products(id));
+                product.id = id;
+                products.push(product);
+            }
+            return products;
         },
         getProduct:function(instance,index){
             return instance.products(index).then((array) => {

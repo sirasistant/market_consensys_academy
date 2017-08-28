@@ -9,7 +9,8 @@ module.exports = ['$rootScope', '$timeout', function ($rootScope, $timeout) {
             var notification = { type: "warning", hash: txHash.substring(0, 25), mined: false, error: null };
             $rootScope.notifications.unshift(notification);
             try {
-                await web3.eth.getTransactionReceiptMined(txHash);
+                var receipt = await web3.eth.getTransactionReceiptMined(txHash);
+                console.log(receipt);
                 notification.type = "success";
                 notification.mined = true;
                 $rootScope.$apply();

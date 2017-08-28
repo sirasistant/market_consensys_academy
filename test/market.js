@@ -37,7 +37,8 @@ contract('Market', function (accounts) {
   describe("Users", () => {
 
     it("should add sellers", async () => {
-      await instance.addSeller(accounts[0], { from: accounts[0] });
+      var txObj = await instance.addSeller(accounts[0], { from: accounts[0] });
+      assert.equal(txObj.receipt.logs.length, 1);
       var isSeller = await instance.isSeller(accounts[0]);
       assert.equal(isSeller, true);
     });
@@ -46,7 +47,8 @@ contract('Market', function (accounts) {
       await instance.addSeller(accounts[0], { from: accounts[0] });
       var isSeller = await instance.isSeller(accounts[0]);
       assert.equal(isSeller, true);
-      await instance.deleteSeller(accounts[0], { from: accounts[0] });
+      var txObj = await instance.deleteSeller(accounts[0], { from: accounts[0] });
+      assert.equal(txObj.receipt.logs.length, 1);
       isSeller = await instance.isSeller(accounts[0]);
       assert.equal(isSeller, false);
     });
@@ -76,7 +78,7 @@ contract('Market', function (accounts) {
 
     beforeEach(async () => {
       await instance.addSeller(seller, { from: owner });
-      await instance.addProduct(price, 2, "Producto", { from: seller });
+      await instance.addProduct(price, 1000, "Producto", { from: seller });
     });
 
     it("Should add products", async () => {
@@ -84,20 +86,38 @@ contract('Market', function (accounts) {
       assert.equal("1", productsCount.toString(10), "Did not add the product correctly");
     });
 
+    it("Should delete products", async () => {
+      await instance.addProduct(price+10, 2000, "Producto 2", { from: seller });
+      var secondProductId = await instance.productIds(1);
+      await instance.deleteProduct(secondProductId, { from: seller });
+      var productsCount = await instance.getProductsCount();
+      assert.equal("1", productsCount.toString(10), "Did not delete the product correctly");
+    });
+
     it("Should allow buying products", async () => {
-      await instance.buy(0, { from: buyer, value: price });
+      var id = await instance.productIds(0);
+      await instance.buy(id, { from: buyer, value: price });
       var sellerBalance = await instance.balances(seller);
       assert.equal(sellerBalance.toString(10), "" + (price - fee), "Did not update the amount of the seller correctly");
       var ownerBalance = await instance.balances(owner);
-      assert.equal(ownerBalance.toString(10), "" + (fee ), "Did not update the amount of the owner correctly");
+      assert.equal(ownerBalance.toString(10), "" + (fee), "Did not update the amount of the owner correctly");
     });
 
     it("Shouldn't allow buying products paying less", async () => {
-      await web3.eth.expectedExceptionPromise(() => instance.buy(0, { from: owner, gas: 3000000 }), 3000000);
+      var id = await instance.productIds(0);
+      await web3.eth.expectedExceptionPromise(() => instance.buy(id, { from: owner, gas: 3000000 }), 3000000);
+    });
+
+    it("Shouldn't allow buying deleted products", async () => {
+      await instance.addProduct(price+10, 2000, "Producto 2", { from: seller });
+      var firstProductId = await instance.productIds(0);
+      await instance.deleteProduct(firstProductId, { from: seller });
+      await web3.eth.expectedExceptionPromise(() => instance.buy(firstProductId, { from: owner, gas: 3000000 }), 3000000);
     });
 
     it("Should allow retrieving money", async () => {
-      await instance.buy(0, { from: buyer, value: price + overpay });
+      var id = await instance.productIds(0);
+      await instance.buy(id, { from: buyer, value: price + overpay });
 
       var accountBalances = await Promise.all([owner, seller].map(account => getBalance(account)));
       var ownerAccountBalance = accountBalances[0];

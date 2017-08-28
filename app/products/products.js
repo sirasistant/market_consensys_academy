@@ -31,6 +31,10 @@ module.exports = ['$rootScope', '$timeout', 'market', 'notifications', function 
             var addProductListener = $rootScope.$on("LogAddProduct", (event, args) => {
                 reloadProducts();
             })
+            
+            var deleteProductListener = $rootScope.$on("LogDeleteProduct", (event, args) => {
+                reloadProducts();
+            });
 
             function reloadProducts() {
                 market.getProducts(instance).then(products => {
@@ -41,18 +45,23 @@ module.exports = ['$rootScope', '$timeout', 'market', 'notifications', function 
 
             reloadProducts();
 
-            scope.buy = (product) => {
-                var index = scope.products.indexOf(product);
-                instance.buy.sendTransaction(index, { from: scope.account, value: product.price }).then((hash) => {
-                    notifications.addTransactionNotification(hash);
-                    $rootScope.$apply();
-                }).catch(err => console.error(err));
+            scope.buy = async (product) => {
+                var hash = await instance.buy.sendTransaction(product.id, { from: scope.account, value: product.price })
+                notifications.addTransactionNotification(hash);
+                $rootScope.$apply();
+            }
+
+            scope.delete = async (product) => {
+                var hash = await instance.deleteProduct.sendTransaction(product.id, { from: scope.account });
+                notifications.addTransactionNotification(hash);
+                $rootScope.$apply();
             }
 
             scope.$on("destroy", () => {
                 buyListener();
                 addProductListener();
                 stockChangedListener();
+                deleteProductListener();
             })
         }
     };

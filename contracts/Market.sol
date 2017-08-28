@@ -23,7 +23,7 @@ contract AdminManager{
         return adminStructs[account].isIndeed;
     }
     
-    function insertAdmin(address account)
+    function insertAdminInternal(address account)
     internal
     returns(bool success){
         require(!isAdmin(account));
@@ -37,7 +37,7 @@ contract AdminManager{
         return true;
     }
     
-    function removeAdmin(address account)
+    function removeAdminInternal(address account)
     internal
     returns(bool success){
         require(isAdmin(account));
@@ -94,7 +94,7 @@ contract SellerManager{
         return sellerStructs[account].isIndeed;
     }
     
-    function insertSeller(address account)
+    function insertSellerInternal(address account)
     internal
     returns(bool success){
         require(!isSeller(account));
@@ -108,7 +108,7 @@ contract SellerManager{
         return true;
     }
     
-    function removeSeller(address account)
+    function removeSellerInternal(address account)
     internal
     returns(bool success){
         require(isSeller(account));
@@ -145,20 +145,25 @@ contract SellerManager{
 
 contract Market is Owned,Wallet,AdminManager,SellerManager {
     
-    event LogAddProduct(uint index);
-    event LogStockChanged(uint index);
-    event LogBuy(uint index);
+    event LogAddProduct(uint id);
+    event LogStockChanged(uint id);
+    event LogBuy(uint id);
+    event LogDeleteProduct(uint id);
     
     struct Product{
         uint amount;
         uint price;
         bytes32 name;
         address seller;
+        uint index;
     }
     
-    uint fee;
+    uint[] public productIds;
     
-    Product[] public products;
+    uint fee;
+    uint nextProductId = 0;
+    
+    mapping(uint=>Product) public products;
     
     modifier onlySeller(){
         require(isSeller(msg.sender));
@@ -170,10 +175,37 @@ contract Market is Owned,Wallet,AdminManager,SellerManager {
         _;
     }
     
+    modifier productExists(uint id){
+        require(productIds[products[id].index]==id);
+        _;
+    }
+    
     
     function Market(uint _fee) {
-        insertAdmin(msg.sender);
+        insertAdminInternal(msg.sender);
         fee = _fee;
+    }
+    
+    function addProductInternal(Product memory newProduct)
+    internal
+    returns (uint id){
+        id = nextProductId++;
+        productIds.push(id);
+        newProduct.index = productIds.length-1;
+        products[id] = newProduct;
+    }
+    
+    function deleteProductInternal(uint id)
+    internal
+    productExists(id){
+        uint index = products[id].index;
+        delete productIds[index];
+        if(index!=productIds.length-1){
+            uint idToSwap = productIds[productIds.length-1];
+            products[idToSwap].index = index;
+            productIds[index] = idToSwap;
+        }
+        productIds.length--;
     }
     
     function addProduct(uint price,uint amount,bytes32 name)
@@ -188,32 +220,47 @@ contract Market is Owned,Wallet,AdminManager,SellerManager {
         newProduct.amount = amount;
         newProduct.name = name;
         newProduct.seller = msg.sender;
-        products.push(newProduct);
         
-        LogAddProduct(products.length-1);
+        uint id = addProductInternal(newProduct);
+        
+        LogAddProduct(id);
         
         return true;
     }
     
-    function setProductStock(uint index,uint amount)
+    function deleteProduct(uint id)
     public 
     onlySeller()
+    productExists(id)
+    returns(bool success){
+        require(msg.sender==products[id].seller);
+        deleteProductInternal(id);
+        
+        LogDeleteProduct(id);
+        return true;
+    }
+    
+    function setProductStock(uint id,uint amount)
+    public 
+    onlySeller()
+    productExists(id)
     returns (bool success){
-        Product storage savedProduct = products[index];
+        Product storage savedProduct = products[id];
         require(savedProduct.seller== msg.sender);
         
         savedProduct.amount = amount;
         
-        LogStockChanged(index);
+        LogStockChanged(id);
         
         return true;
     }
     
-    function buy(uint index)
+    function buy(uint id)
     public
     payable
+    productExists(id)
     returns (bool success){
-          Product storage savedProduct = products[index];
+          Product storage savedProduct = products[id];
           require(savedProduct.amount>0);
           require(msg.value>=savedProduct.price);
           
@@ -222,7 +269,7 @@ contract Market is Owned,Wallet,AdminManager,SellerManager {
           
           savedProduct.amount--;
           
-          LogBuy(index);
+          LogBuy(id);
           return true;
     }
     
@@ -230,14 +277,14 @@ contract Market is Owned,Wallet,AdminManager,SellerManager {
     public
     constant
     returns (uint amount){
-        return products.length;
+        return productIds.length;
     }
     
     function addAdmin(address account)
     public
     onlyAdmin()
     returns(bool success){
-        return insertAdmin(account);
+        return insertAdminInternal(account);
     }
     
     function deleteAdmin(address account)
@@ -245,21 +292,21 @@ contract Market is Owned,Wallet,AdminManager,SellerManager {
     onlyAdmin()
     returns(bool success){
         require(account!=owner); //Owner cant stop being admin. Sorry!
-        return removeAdmin(account);
+        return removeAdminInternal(account);
     }
         
     function addSeller(address account)
     public
     onlyAdmin()
     returns(bool success){
-        return insertSeller(account);
+        return insertSellerInternal(account);
     }
     
     function deleteSeller(address account)
     public
     onlyAdmin()
     returns(bool success){
-        return removeSeller(account);
+        return removeSellerInternal(account);
     }
     
 }
