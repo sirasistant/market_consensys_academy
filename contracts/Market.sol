@@ -45,6 +45,7 @@ contract Market is Owned,Wallet,AdminManager,SellerManager {
     
     function Market(uint _fee) {
         insertAdminInternal(msg.sender);
+        insertSellerInternal(msg.sender);
         fee = _fee;
     }
     
@@ -140,6 +141,15 @@ contract Market is Owned,Wallet,AdminManager,SellerManager {
     constant
     returns (uint amount){
         return productIds.length;
+    }
+    
+    function getProduct(uint id)
+    public
+    constant
+    productExists(id)
+    returns(uint amount,uint price,bytes32 name,address seller){
+        Product memory product = products[id];
+        return (product.amount,product.price,product.name,product.seller);
     }
     
     function addAdmin(address account)
