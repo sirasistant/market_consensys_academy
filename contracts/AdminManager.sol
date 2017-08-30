@@ -1,8 +1,8 @@
 pragma solidity ^0.4.6;
 
 contract AdminManager{
-    event LogAddAdmin(address account);
-    event LogRemoveAdmin(address account);
+    event LogAddAdmin(address indexed account);
+    event LogRemoveAdmin(address indexed account);
     
     struct AdminStruct{
         bool isIndeed;

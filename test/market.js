@@ -37,19 +37,19 @@ contract('Market', function (accounts) {
   describe("Users", () => {
 
     it("should add sellers", async () => {
-      var txObj = await instance.addSeller(accounts[0], { from: accounts[0] });
+      var txObj = await instance.addSeller(accounts[1], { from: accounts[0] });
       assert.equal(txObj.receipt.logs.length, 1);
-      var isSeller = await instance.isSeller(accounts[0]);
+      var isSeller = await instance.isSeller(accounts[1]);
       assert.equal(isSeller, true);
     });
 
     it("should delete sellers", async () => {
-      await instance.addSeller(accounts[0], { from: accounts[0] });
-      var isSeller = await instance.isSeller(accounts[0]);
+      await instance.addSeller(accounts[1], { from: accounts[0] });
+      var isSeller = await instance.isSeller(accounts[1]);
       assert.equal(isSeller, true);
-      var txObj = await instance.deleteSeller(accounts[0], { from: accounts[0] });
+      var txObj = await instance.deleteSeller(accounts[1], { from: accounts[0] });
       assert.equal(txObj.receipt.logs.length, 1);
-      isSeller = await instance.isSeller(accounts[0]);
+      isSeller = await instance.isSeller(accounts[1]);
       assert.equal(isSeller, false);
     });
 

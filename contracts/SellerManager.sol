@@ -1,8 +1,8 @@
 pragma solidity ^0.4.6;
 
 contract SellerManager{
-    event LogAddSeller(address account);
-    event LogRemoveSeller(address account);
+    event LogAddSeller(address indexed account);
+    event LogRemoveSeller(address indexed account);
     
     struct SellerStruct{
         bool isIndeed;

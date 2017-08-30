@@ -1,8 +1,8 @@
 pragma solidity ^0.4.6;
 
 contract Wallet{
-    event LogMoneyAdded(address account, uint amount);
-    event LogWithdraw(address account, uint amount);
+    event LogMoneyAdded(address indexed account, uint amount);
+    event LogWithdraw(address indexed account, uint amount);
     
     mapping(address=>uint) public balances;
     

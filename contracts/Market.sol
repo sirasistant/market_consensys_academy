@@ -7,10 +7,10 @@ import "./SellerManager.sol";
 
 contract Market is Owned,Wallet,AdminManager,SellerManager {
     
-    event LogAddProduct(uint id);
-    event LogStockChanged(uint id);
-    event LogBuy(uint id);
-    event LogDeleteProduct(uint id);
+    event LogAddProduct(uint indexed id);
+    event LogStockChanged(uint indexed id);
+    event LogBuy(uint indexed id);
+    event LogDeleteProduct(uint indexed id);
     
     struct Product{
         uint amount;

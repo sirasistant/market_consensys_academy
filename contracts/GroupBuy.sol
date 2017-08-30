@@ -4,7 +4,10 @@ import "./Market.sol";
 
 contract GroupBuy is Owned,Wallet {
     
-    //TODO logs
+    event LogBuyRequestAdded(uint indexed requestId,address indexed creator ,uint indexed productId);
+    event LogJoinedBuyRequest(uint indexed requestId,address indexed collaborator,uint amount);
+    event LogBuyRequestExecuted(uint indexed requestId,uint indexed productId);
+    event LogExitedBuyRequest(uint indexed requestId,address indexed collaborator,uint amount);
     
     struct BuyRequest{
         uint id;
@@ -85,16 +88,8 @@ contract GroupBuy is Owned,Wallet {
         newBuyRequest.creator = msg.sender;
         newBuyRequest.productId = productId;
         newBuyRequest.price = price;
-        addBuyRequestInternal(newBuyRequest);
-        return true;
-    }
-    
-    function deleteBuyRequest(uint requestId)
-    public
-    existsBuyRequest(requestId)
-    returns(bool success){
-        require(buyRequests[requestId].creator==msg.sender);
-        deleteBuyRequestInternal(requestId);
+        uint id = addBuyRequestInternal(newBuyRequest);
+        LogBuyRequestAdded(id,msg.sender,productId);
         return true;
     }
     
@@ -109,6 +104,10 @@ contract GroupBuy is Owned,Wallet {
         if(buyRequests[requestId].totalAmount>=buyRequests[requestId].price){
             executeBuyRequest(requestId);
         }
+        LogJoinedBuyRequest( requestId,msg.sender,msg.value);
+        if(buyRequests[requestId].totalAmount>=buyRequests[requestId].price){
+            LogBuyRequestExecuted(requestId,buyRequests[requestId].productId);
+        }
         return true;
     }
     
@@ -121,6 +120,7 @@ contract GroupBuy is Owned,Wallet {
         buyRequests[requestId].totalAmount -=  amountContributed;
         buyRequests[requestId].collaborators[msg.sender] =0;
         addMoney(msg.sender,amountContributed);
+        LogExitedBuyRequest(requestId,msg.sender,amountContributed);
         return true;
     }
     
@@ -132,4 +132,9 @@ contract GroupBuy is Owned,Wallet {
     }
     
 }
+
+
+
+
+
 
