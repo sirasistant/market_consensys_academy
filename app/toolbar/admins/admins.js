@@ -8,7 +8,7 @@ module.exports = ['$rootScope', '$timeout', 'market','notifications', function (
         },
         templateUrl: './toolbar/admins/admins.html',
         link: function (scope, element, attrs) {
-            var instance =scope.$root.instance;
+            var instance =scope.$root.marketInstance;
             var account = scope.$root.account;
 
             instance.getAdminsCount()

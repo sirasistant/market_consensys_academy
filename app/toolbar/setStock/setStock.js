@@ -8,7 +8,7 @@ module.exports = ['$rootScope', '$timeout', 'market', 'notifications', function 
         },
         templateUrl: './toolbar/setStock/setStock.html',
         link: function (scope, element, attrs) {
-            var instance = scope.$root.instance;
+            var instance = scope.$root.marketInstance;
             var account = scope.$root.account;
             scope.search = { seller: account };
 

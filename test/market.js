@@ -78,7 +78,7 @@ contract('Market', function (accounts) {
 
     beforeEach(async () => {
       await instance.addSeller(seller, { from: owner });
-      await instance.addProduct(price, 1000, "Producto", { from: seller });
+      await instance.addProduct(price, 1000, "Producto","0x0", { from: seller });
     });
 
     it("Should add products", async () => {
@@ -87,7 +87,7 @@ contract('Market', function (accounts) {
     });
 
     it("Should delete products", async () => {
-      await instance.addProduct(price+10, 2000, "Producto 2", { from: seller });
+      await instance.addProduct(price+10, 2000, "Producto 2","0x0", { from: seller });
       var secondProductId = await instance.productIds(1);
       await instance.deleteProduct(secondProductId, { from: seller });
       var productsCount = await instance.getProductsCount();
@@ -109,7 +109,7 @@ contract('Market', function (accounts) {
     });
 
     it("Shouldn't allow buying deleted products", async () => {
-      await instance.addProduct(price+10, 2000, "Producto 2", { from: seller });
+      await instance.addProduct(price+10, 2000, "Producto 2","0x0", { from: seller });
       var firstProductId = await instance.productIds(0);
       await instance.deleteProduct(firstProductId, { from: seller });
       await web3.eth.expectedExceptionPromise(() => instance.buy(firstProductId, { from: owner, gas: 3000000 }), 3000000);
@@ -128,7 +128,7 @@ contract('Market', function (accounts) {
       sellerAccountBalance = sellerAccountBalance.minus(receipts[1].receipt.gasUsed * gasPrice);
       accountBalances = await Promise.all([owner, seller].map(account => getBalance(account)));
 
-      assert.equal(accountBalances[0].toString(10), ownerAccountBalance.add(fee + overpay).toString(10), "Did not retrieve the amount of the owner correctly");
+      assert.equal(accountBalances[0].toString(10), ownerAccountBalance.add(fee).toString(10), "Did not retrieve the amount of the owner correctly");
       assert.equal(accountBalances[1].toString(10), sellerAccountBalance.add(price - fee).toString(10), "Did not retrieve the amount of the seller correctly");
     });
   });

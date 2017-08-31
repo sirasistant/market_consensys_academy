@@ -17,6 +17,7 @@ contract Market is Owned,Wallet,AdminManager,SellerManager {
         uint price;
         bytes32 name;
         address seller;
+        address token;
         uint index;
     }
     
@@ -71,7 +72,7 @@ contract Market is Owned,Wallet,AdminManager,SellerManager {
         productIds.length--;
     }
     
-    function addProduct(uint price,uint amount,bytes32 name)
+    function addProduct(uint price,uint amount,bytes32 name,address tokenAddress)
     public 
     onlySeller()
     returns(bool success){
@@ -83,6 +84,7 @@ contract Market is Owned,Wallet,AdminManager,SellerManager {
         newProduct.amount = amount;
         newProduct.name = name;
         newProduct.seller = msg.sender;
+        newProduct.token = tokenAddress;
         
         uint id = addProductInternal(newProduct);
         
@@ -118,22 +120,40 @@ contract Market is Owned,Wallet,AdminManager,SellerManager {
         return true;
     }
     
+    function buyWithTokens(uint id)
+    public
+    productExists(id)
+    returns (bool success){
+        require(savedProduct.amount>0);
+        Product storage savedProduct = products[id];
+        require(savedProduct.token != address(0));
+        require(tokenBalances[savedProduct.token][msg.sender]>=savedProduct.price);
+        
+        savedProduct.amount--;
+        tokenTransfer(msg.sender,savedProduct.seller,savedProduct.token,savedProduct.price-fee);
+        tokenTransfer(msg.sender,owner,savedProduct.token,fee);
+        
+        LogBuy(id);
+        return true;
+    }
+    
     function buy(uint id)
     public
     payable
     productExists(id)
     returns (bool success){
-          Product storage savedProduct = products[id];
-          require(savedProduct.amount>0);
-          require(msg.value>=savedProduct.price);
-          
-          addMoney(savedProduct.seller,savedProduct.price-fee);
-          addMoney(owner,msg.value-savedProduct.price + fee);
-          
-          savedProduct.amount--;
-          
-          LogBuy(id);
-          return true;
+        require(savedProduct.amount>0);
+        addMoney(msg.sender,msg.value);
+        Product storage savedProduct = products[id];
+        require(savedProduct.token == address(0));
+        require(balances[msg.sender]>=savedProduct.price);
+        
+        savedProduct.amount--;
+        transfer(msg.sender,savedProduct.seller,savedProduct.price-fee);
+        transfer(msg.sender,owner,fee);
+        
+        LogBuy(id);
+        return true;
     }
     
     function getProductsCount()
@@ -179,6 +199,13 @@ contract Market is Owned,Wallet,AdminManager,SellerManager {
     onlyAdmin()
     returns(bool success){
         return removeSellerInternal(account);
+    }
+    
+
+    function tokenFallback(address _from, uint _value, bytes _data)
+    public{
+        require(_data.length==0);
+        addToken(_from,msg.sender,_value);
     }
     
 }

@@ -13,7 +13,7 @@ if (typeof web3 !== 'undefined') {
 Promise.promisifyAll(web3.eth, { suffix: "Promise" });
 Promise.promisifyAll(web3.version, { suffix: "Promise" });
 
-var app = angular.module('Market', ['ui.bootstrap']);
+var app = angular.module('Market', ['ui.bootstrap','ngRoute']);
 
 app.config(function ($locationProvider) {
     $locationProvider.html5Mode(false);
@@ -30,7 +30,7 @@ app.run(['$rootScope', 'market', function ($rootScope, market) {
 
     market.getContract().deployed().then(_instance => {
         console.log("Contract at " + _instance.address);
-        $rootScope.instance = _instance;
+        $rootScope.marketInstance = _instance;
         $rootScope.$apply();
         var events = _instance.allEvents((error, log) => {
             if (!error)
@@ -42,6 +42,7 @@ app.run(['$rootScope', 'market', function ($rootScope, market) {
 }]);
 
 app.service("market", require("./market.service.js"));
+app.service("groupBuy", require("./groupBuy.service.js"));
 app.service("notifications", require("./notifications.service.js"));
 
 app.directive("products", require("./products/products.js"));
@@ -54,3 +55,19 @@ app.directive("addProduct", require("./toolbar/addProduct/addProduct.js"));
 app.directive("setStock", require("./toolbar/setStock/setStock.js"));
 app.directive("money", require("./money/money.js"));
 app.directive("notifications", require("./notifications/notifications.js"));
+
+app.controller('marketController', require('./market/marketController.js'));
+app.controller('groupBuyController', require('./groupBuy/groupBuyController.js'));
+
+
+app.config(['$routeProvider', function ($routeProvider) {
+    $routeProvider
+        .when("/", {
+            controller: "marketController",
+            templateUrl: "market/market.html"
+        }).when("/group", {
+            controller: "groupBuyController",
+            templateUrl: "groupBuy/groupBuy.html"
+        }).otherwise({ redirectTo: '/' });
+
+}]);

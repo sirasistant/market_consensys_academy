@@ -23,9 +23,9 @@ contract('GroupBuy', function (accounts) {
   beforeEach(async () => {
     marketInstance = await Market.new(fee);
     groupBuyInstance = await GroupBuy.new(marketInstance.address);
-    await marketInstance.addProduct(10, 10, "Producto 1", { from: accounts[0] });
-    await marketInstance.addProduct(price, 3, "Producto 2", { from: accounts[0] });
-    await marketInstance.addProduct(30, 1, "Producto 3", { from: accounts[0] });
+    await marketInstance.addProduct(10, 10, "Producto 1","0x0", { from: accounts[0] });
+    await marketInstance.addProduct(price, 3, "Producto 2","0x0", { from: accounts[0] });
+    await marketInstance.addProduct(30, 1, "Producto 3","0x0", { from: accounts[0] });
     var product1Id = await marketInstance.productIds(0);
     var product2Id = await marketInstance.productIds(1);
     var product3Id = await marketInstance.productIds(2);
@@ -53,7 +53,7 @@ contract('GroupBuy', function (accounts) {
     var paid = buyRequest[4];
     assert.equal(paid, true);
     var ownerAccountBalance = await marketInstance.balances(accounts[0]);
-    assert.equal(ownerAccountBalance.toString(10), "" + (price + 10));
+    assert.equal(ownerAccountBalance.toString(10), "" + (price));
   });
 
   it("Shouldn't allow collaborating to paid buy requests", async () => {

@@ -1,19 +1,24 @@
 var Promise = require("bluebird");
 
-module.exports = ['$rootScope', '$timeout', 'market', 'notifications', function ($rootScope, $timeout, market, notifications) {
+module.exports = ['$rootScope', '$timeout', 'market', 'notifications','$location', function ($rootScope, $timeout, market, notifications,$location) {
     return {
         restrict: 'E',
         scope: {
             account: "=account",
-            instance: "=instance"
+            marketInstance: "=marketInstance"
         },
         templateUrl: './products/products.html',
         link: function (scope, element, attrs) {
 
-            var instance = scope.instance;
+            var idSearch = $location.search().productId;
+            var nameSearch = $location.search().productName;
+
+            scope.search = {id:idSearch,name:nameSearch};
+
+            var marketInstance = scope.marketInstance;
 
             var buyListener = $rootScope.$on("LogBuy", (event, args) => {
-                market.getProduct(instance, args.index).then((product) => {
+                market.getProduct(marketInstance, args.index).then((product) => {
                     if (scope.products)
                         scope.products[args.index.toNumber()] = product;
                     scope.$apply();
@@ -21,7 +26,7 @@ module.exports = ['$rootScope', '$timeout', 'market', 'notifications', function 
             });
 
             var stockChangedListener = $rootScope.$on("LogStockChanged", (event, args) => {
-                market.getProduct(instance, args.index).then((product) => {
+                market.getProduct(marketInstance, args.index).then((product) => {
                     if (scope.products)
                         scope.products[args.index.toNumber()] = product;
                     scope.$apply();
@@ -37,7 +42,7 @@ module.exports = ['$rootScope', '$timeout', 'market', 'notifications', function 
             });
 
             function reloadProducts() {
-                market.getProducts(instance).then(products => {
+                market.getProducts(marketInstance).then(products => {
                     scope.products = products;
                     scope.$apply();
                 })
@@ -46,13 +51,13 @@ module.exports = ['$rootScope', '$timeout', 'market', 'notifications', function 
             reloadProducts();
 
             scope.buy = async (product) => {
-                var hash = await instance.buy.sendTransaction(product.id, { from: scope.account, value: product.price })
+                var hash = await marketInstance.buy.sendTransaction(product.id, { from: scope.account, value: product.price })
                 notifications.addTransactionNotification(hash);
                 $rootScope.$apply();
             }
 
             scope.delete = async (product) => {
-                var hash = await instance.deleteProduct.sendTransaction(product.id, { from: scope.account });
+                var hash = await marketInstance.deleteProduct.sendTransaction(product.id, { from: scope.account });
                 notifications.addTransactionNotification(hash);
                 $rootScope.$apply();
             }

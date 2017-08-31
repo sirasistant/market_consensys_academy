@@ -14,7 +14,7 @@ gulp.task('frontend:clean', () => {
 });
 
 gulp.task('frontend:copy:lib', () => {
-    return gulp.src(['app/angular.js', 'app/lib'], { base: './app' }).pipe(gulp.dest('build'));
+    return gulp.src(['app/lib'], { base: './app' }).pipe(gulp.dest('build'));
 });
 
 gulp.task('frontend:copy:assets', () => {
