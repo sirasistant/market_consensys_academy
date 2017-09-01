@@ -201,6 +201,12 @@ contract Market is Owned,Wallet,AdminManager,SellerManager {
         return removeSellerInternal(account);
     }
     
+    function receiveApproval(address _from, uint256 _value, address _token, bytes _extraData)
+    public{
+        require(_token == msg.sender);
+        require(_extraData.length==0);
+        addToken(_from,msg.sender,_value);
+    }
 
     function tokenFallback(address _from, uint _value, bytes _data)
     public{
