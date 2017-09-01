@@ -4,8 +4,9 @@ import "./Owned.sol";
 import "./Wallet.sol";
 import "./AdminManager.sol";
 import "./SellerManager.sol";
+import "./AllowedTokenManager.sol";
 
-contract Market is Owned,Wallet,AdminManager,SellerManager {
+contract Market is Owned,Wallet,AdminManager,SellerManager,AllowedTokenManager {
     
     event LogAddProduct(uint indexed id);
     event LogStockChanged(uint indexed id);
@@ -35,6 +36,11 @@ contract Market is Owned,Wallet,AdminManager,SellerManager {
     
     modifier onlyAdmin(){
         require(isAdmin(msg.sender));
+        _;
+    }
+    
+    modifier onlyAllowedToken(address account){
+        require(isAllowedToken(account)||account==address(0));
         _;
     }
     
@@ -75,6 +81,7 @@ contract Market is Owned,Wallet,AdminManager,SellerManager {
     function addProduct(uint price,uint amount,bytes32 name,address tokenAddress)
     public 
     onlySeller()
+    onlyAllowedToken(tokenAddress)
     returns(bool success){
         require(price>fee);
         require(amount>0);
@@ -209,7 +216,8 @@ contract Market is Owned,Wallet,AdminManager,SellerManager {
     }
 
     function tokenFallback(address _from, uint _value, bytes _data)
-    public{
+    public
+    onlyAllowedToken(msg.sender){
         require(_data.length==0);
         addToken(_from,msg.sender,_value);
     }
