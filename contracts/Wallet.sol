@@ -1,12 +1,6 @@
 pragma solidity ^0.4.6;
 
-contract ERC223 {
-    uint public totalSupply;
-    function balanceOf(address who) constant returns (uint);
-    function transfer(address to, uint value);
-    function transfer(address to, uint value, bytes data);
-    event Transfer(address indexed from, address indexed to, uint value, bytes indexed data);
-}
+import "./ERC20.sol";
 
 contract Wallet{
     event LogMoneyAdded(address indexed account, uint amount);
@@ -38,7 +32,7 @@ contract Wallet{
         require(tokenBalances[tokenAddress][msg.sender]>0);
         uint amount = tokenBalances[tokenAddress][msg.sender];
         tokenBalances[tokenAddress][msg.sender]=0;
-        ERC223 token = ERC223(tokenAddress);
+        ERC20 token = ERC20(tokenAddress);
         token.transfer(msg.sender,amount);
         LogWithdraw(msg.sender, amount);
         return true;
@@ -54,7 +48,7 @@ contract Wallet{
     
     function tokenTransfer(address from,address to,address tokenAddress,uint amount)
     internal{
-        require(tokenBalances[tokenAddress][from]>amount);
+        require(tokenBalances[tokenAddress][from]>=amount);
         tokenBalances[tokenAddress][from]-= amount;
         tokenBalances[tokenAddress][to] += amount;
         LogTokenTransfer( from, to, tokenAddress, amount);

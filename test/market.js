@@ -1,4 +1,5 @@
 var Market = artifacts.require("./Market.sol");
+var MarketCoin = artifacts.require("./MarketCoin.sol");
 web3.eth.expectedExceptionPromise = require("../app/lib/expectedExceptionPromise.js");
 
 const promisify = (inner) =>
@@ -15,10 +16,12 @@ const getBalance = (account, at) =>
 
 contract('Market', function (accounts) {
   var instance;
+  var tokenInstance;
   var fee = 4;
 
   beforeEach(async () => {
     instance = await Market.new(fee);
+    tokenInstance = await MarketCoin.new(10000, 'MarketCoin', 1, '&', { from: accounts[0] });
   });
 
   describe("Lifecycle", () => {
@@ -78,7 +81,7 @@ contract('Market', function (accounts) {
 
     beforeEach(async () => {
       await instance.addSeller(seller, { from: owner });
-      await instance.addProduct(price, 1000, "Producto","0x0", { from: seller });
+      await instance.addProduct(price, 1000, "Producto", "0x0", { from: seller });
     });
 
     it("Should add products", async () => {
@@ -87,7 +90,7 @@ contract('Market', function (accounts) {
     });
 
     it("Should delete products", async () => {
-      await instance.addProduct(price+10, 2000, "Producto 2","0x0", { from: seller });
+      await instance.addProduct(price + 10, 2000, "Producto 2", "0x0", { from: seller });
       var secondProductId = await instance.productIds(1);
       await instance.deleteProduct(secondProductId, { from: seller });
       var productsCount = await instance.getProductsCount();
@@ -109,7 +112,7 @@ contract('Market', function (accounts) {
     });
 
     it("Shouldn't allow buying deleted products", async () => {
-      await instance.addProduct(price+10, 2000, "Producto 2","0x0", { from: seller });
+      await instance.addProduct(price + 10, 2000, "Producto 2", "0x0", { from: seller });
       var firstProductId = await instance.productIds(0);
       await instance.deleteProduct(firstProductId, { from: seller });
       await web3.eth.expectedExceptionPromise(() => instance.buy(firstProductId, { from: owner, gas: 3000000 }), 3000000);
@@ -131,6 +134,53 @@ contract('Market', function (accounts) {
       assert.equal(accountBalances[0].toString(10), ownerAccountBalance.add(fee).toString(10), "Did not retrieve the amount of the owner correctly");
       assert.equal(accountBalances[1].toString(10), sellerAccountBalance.add(price - fee).toString(10), "Did not retrieve the amount of the seller correctly");
     });
+  });
+  describe("Buying with tokens", () => {
+    var price = 100;
+    var gasPrice = 40000000;
+    var owner = accounts[0];
+    var buyer = accounts[1];
+    var seller = accounts[2];
+
+    beforeEach(async () => {
+      await tokenInstance.transfer(buyer,1000 ,{ from: owner });
+      await instance.addSeller(seller, { from: owner });
+      await instance.addAllowedToken(tokenInstance.address, { from: owner });
+      await instance.addProduct(price, 1000, "Producto", tokenInstance.address, { from: seller });
+    });
+
+    it("Should allow buying products", async () => {
+      await tokenInstance.approveAndCall(instance.address, price, "", { from: buyer });
+      var id = await instance.productIds(0);
+      await instance.buyWithTokens(id, { from: buyer });
+      var sellerBalance = await instance.tokenBalances(tokenInstance.address, seller);
+      assert.equal(sellerBalance.toString(10), "" + (price - fee), "Did not update the amount of the seller correctly");
+      var ownerBalance = await instance.tokenBalances(tokenInstance.address,owner);
+      assert.equal(ownerBalance.toString(10), "" + (fee), "Did not update the amount of the owner correctly");
+    });
+
+    it("Shouldn't allow buying products paying less", async () => {
+      await tokenInstance.approveAndCall(instance.address, price-1, "", { from: buyer });
+      var id = await instance.productIds(0);
+      await web3.eth.expectedExceptionPromise(() => instance.buyWithTokens(id, { from: buyer, gas: 3000000 }), 3000000);
+    });
+
+    it("Should allow retrieving tokens", async () => {
+      await tokenInstance.approveAndCall(instance.address, price, "", { from: buyer });
+      var id = await instance.productIds(0);
+      await instance.buyWithTokens(id, { from: buyer });
+
+      var accountBalances = await Promise.all([owner, seller].map(account => tokenInstance.balanceOf(account)));
+      var ownerAccountBalance = accountBalances[0];
+      var sellerAccountBalance = accountBalances[1];
+
+      var receipts = await Promise.all([owner, seller].map(account => instance.withdrawTokens(tokenInstance.address,{ from: account, gasPrice: gasPrice })));
+      accountBalances = await Promise.all([owner, seller].map(account => tokenInstance.balanceOf(account)));
+
+      assert.equal(accountBalances[0].toString(10), ownerAccountBalance.add(fee).toString(10), "Did not retrieve the amount of the owner correctly");
+      assert.equal(accountBalances[1].toString(10), sellerAccountBalance.add(price - fee).toString(10), "Did not retrieve the amount of the seller correctly");
+    });
+  
   });
 
 });

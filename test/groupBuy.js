@@ -38,7 +38,7 @@ contract('GroupBuy', function (accounts) {
     assert.equal("3", (await groupBuyInstance.getBuyRequestCount()).toString(10));
   });
 
-  it("Should collaborating to a request", async () => {
+  it("Should allow collaborating to a request", async () => {
     var requestId = await groupBuyInstance.buyRequestIds(1);
     await groupBuyInstance.joinBuyRequest(requestId, { from: accounts[0], value: 5 });
     var buyRequest = await groupBuyInstance.buyRequests(requestId);

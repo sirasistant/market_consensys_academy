@@ -5,6 +5,7 @@ import "./Wallet.sol";
 import "./AdminManager.sol";
 import "./SellerManager.sol";
 import "./AllowedTokenManager.sol";
+import "./ERC20.sol";
 
 contract Market is Owned,Wallet,AdminManager,SellerManager,AllowedTokenManager {
     
@@ -208,10 +209,19 @@ contract Market is Owned,Wallet,AdminManager,SellerManager,AllowedTokenManager {
         return removeSellerInternal(account);
     }
     
+    function addAllowedToken(address account)
+    public
+    onlyAdmin()
+    returns(bool success){
+        return insertAllowedTokenInternal(account);
+    }
+    
     function receiveApproval(address _from, uint256 _value, address _token, bytes _extraData)
     public{
         require(_token == msg.sender);
         require(_extraData.length==0);
+        ERC20 token = ERC20(_token);
+        token.transferFrom( _from, this, _value);
         addToken(_from,msg.sender,_value);
     }
 
