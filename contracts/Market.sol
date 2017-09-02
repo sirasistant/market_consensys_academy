@@ -135,11 +135,12 @@ contract Market is Owned,Wallet,AdminManager,SellerManager,AllowedTokenManager {
         require(savedProduct.amount>0);
         Product storage savedProduct = products[id];
         require(savedProduct.token != address(0));
-        require(tokenBalances[savedProduct.token][msg.sender]>=savedProduct.price);
+        var sender = currentTokenTransfer==address(0)? msg.sender:currentTokenTransfer;
+        require(tokenBalances[savedProduct.token][sender]>=savedProduct.price);
         
         savedProduct.amount--;
-        tokenTransfer(msg.sender,savedProduct.seller,savedProduct.token,savedProduct.price-fee);
-        tokenTransfer(msg.sender,owner,savedProduct.token,fee);
+        tokenTransfer(sender,savedProduct.seller,savedProduct.token,savedProduct.price-fee);
+        tokenTransfer(sender,owner,savedProduct.token,fee);
         
         LogBuy(id);
         return true;
@@ -216,20 +217,31 @@ contract Market is Owned,Wallet,AdminManager,SellerManager,AllowedTokenManager {
         return insertAllowedTokenInternal(account);
     }
     
+    address currentTokenTransfer;
+    
     function receiveApproval(address _from, uint256 _value, address _token, bytes _extraData)
-    public{
+    public
+    onlyAllowedToken(msg.sender){
         require(_token == msg.sender);
-        require(_extraData.length==0);
         ERC20 token = ERC20(_token);
         token.transferFrom( _from, this, _value);
         addToken(_from,msg.sender,_value);
+        if(_extraData.length!=0){
+            currentTokenTransfer = _from;
+            require(this.delegatecall(_extraData));
+            currentTokenTransfer = address(0);
+        }
     }
 
     function tokenFallback(address _from, uint _value, bytes _data)
     public
     onlyAllowedToken(msg.sender){
-        require(_data.length==0);
         addToken(_from,msg.sender,_value);
+        if(_data.length!=0){
+            currentTokenTransfer = _from;
+            require(this.delegatecall(_data));
+            currentTokenTransfer = address(0);
+        }
     }
     
 }

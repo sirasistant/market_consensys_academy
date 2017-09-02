@@ -34,7 +34,7 @@ contract Wallet{
         tokenBalances[tokenAddress][msg.sender]=0;
         ERC20 token = ERC20(tokenAddress);
         token.transfer(msg.sender,amount);
-        LogWithdraw(msg.sender, amount);
+        LogWithdrawToken(msg.sender,tokenAddress, amount);
         return true;
     }
     

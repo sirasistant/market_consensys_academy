@@ -1,6 +1,6 @@
 var Promise = require("bluebird");
 
-module.exports = ['$rootScope', '$timeout', 'market', 'notifications','$location', function ($rootScope, $timeout, market, notifications,$location) {
+module.exports = ['$rootScope', '$timeout', 'market', 'notifications', '$location', function ($rootScope, $timeout, market, notifications, $location) {
     return {
         restrict: 'E',
         scope: {
@@ -13,7 +13,7 @@ module.exports = ['$rootScope', '$timeout', 'market', 'notifications','$location
             var idSearch = $location.search().productId;
             var nameSearch = $location.search().productName;
 
-            scope.search = {id:idSearch,name:nameSearch};
+            scope.search = { id: idSearch, name: nameSearch };
 
             var marketInstance = scope.marketInstance;
 
@@ -34,24 +34,34 @@ module.exports = ['$rootScope', '$timeout', 'market', 'notifications','$location
             });
 
             var addProductListener = $rootScope.$on("LogAddProduct", (event, args) => {
-                reloadProducts();
+                reload();
             })
-            
+
             var deleteProductListener = $rootScope.$on("LogDeleteProduct", (event, args) => {
-                reloadProducts();
+                reload();
             });
 
-            function reloadProducts() {
-                market.getProducts(marketInstance).then(products => {
-                    scope.products = products;
-                    scope.$apply();
-                })
+            async function reload() {
+                scope.products = await market.getProducts(marketInstance);
+                scope.tokens = await market.getAllowedTokens(marketInstance, scope.account);
+                scope.products = scope.products.map(product => {
+                    product.token = scope.tokens.filter(token => token.instance.address == product.token)[0];
+                    product.priceToShow = product.token? (product.price/(Math.pow(10,product.token.decimalUnits))): web3.fromWei(product.price, 'ether');
+                    return product;
+                });
+                scope.$apply();
             };
 
-            reloadProducts();
+            reload();
 
             scope.buy = async (product) => {
-                var hash = await marketInstance.buy.sendTransaction(product.id, { from: scope.account, value: product.price })
+                var hash;
+                if(product.token){ //TODO fill data
+                    var callData = marketInstance.contract.buyWithTokens.getData(product.id);
+                    hash = await product.token.instance.approveAndCall.sendTransaction(marketInstance.address,product.price,callData, { from: scope.account });
+                }else{
+                    hash = await marketInstance.buy.sendTransaction(product.id, { from: scope.account, value: product.price });                    
+                }
                 notifications.addTransactionNotification(hash);
                 $rootScope.$apply();
             }

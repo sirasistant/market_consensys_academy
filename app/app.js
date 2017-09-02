@@ -56,8 +56,15 @@ app.directive("setStock", require("./toolbar/setStock/setStock.js"));
 app.directive("money", require("./money/money.js"));
 app.directive("notifications", require("./notifications/notifications.js"));
 
+app.directive("tokenList", require("./tokenList/tokenList.js"));
+app.directive("tokenToolbar", require("./tokenToolbar/tokenToolbar.js"));
+app.directive("addToken", require("./tokenToolbar/addToken/addToken.js"));
+app.directive("depositToken", require("./depositToken/depositToken.js"));
+
+
 app.controller('marketController', require('./market/marketController.js'));
 app.controller('groupBuyController', require('./groupBuy/groupBuyController.js'));
+app.controller('tokensController', require('./tokens/tokensController.js'));
 
 
 app.config(['$routeProvider', function ($routeProvider) {
@@ -68,6 +75,9 @@ app.config(['$routeProvider', function ($routeProvider) {
         }).when("/group", {
             controller: "groupBuyController",
             templateUrl: "groupBuy/groupBuy.html"
+        }).when("/tokens", {
+            controller: "tokensController",
+            templateUrl: "tokens/tokens.html"
         }).otherwise({ redirectTo: '/' });
 
 }]);

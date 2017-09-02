@@ -1,5 +1,5 @@
 var Market = artifacts.require("./Market.sol");
-var MarketCoin = artifacts.require("./MarketCoin.sol");
+var ERC20 = artifacts.require("./ERC20.sol");
 web3.eth.expectedExceptionPromise = require("../app/lib/expectedExceptionPromise.js");
 
 const promisify = (inner) =>
@@ -21,7 +21,7 @@ contract('Market', function (accounts) {
 
   beforeEach(async () => {
     instance = await Market.new(fee);
-    tokenInstance = await MarketCoin.new(10000, 'MarketCoin', 1, '&', { from: accounts[0] });
+    tokenInstance = await ERC20.new(10000, 'MarketCoin', 1, '&', { from: accounts[0] });
   });
 
   describe("Lifecycle", () => {

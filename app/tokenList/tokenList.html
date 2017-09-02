@@ -1,0 +1,22 @@
+<div class="row">
+    <div class="col-xs-12">
+        <form class="form-inline header-form">
+            <input class="form-control" ng-class="{highlight:search.name}"  placeholder="Search by name" ng-model="search.name">
+        </form>
+    </div>
+    <div class="col-sm-6 col-md-4 col-lg-3" ng-repeat="token in tokens | filter:search">
+        <div class="panel panel-default">
+            <div class="panel-heading">{{token.name}}</div>
+            <div class="panel-body">
+                <p>Market balance: {{formatAmountWithDecimals(token.marketBalance,token.decimalUnits,2)}} {{token.symbol}}</p>
+                <p>Balance: {{formatAmountWithDecimals(token.balance,token.decimalUnits,2)}} {{token.symbol}}</p>                
+                <p>Total supply: {{formatAmountWithDecimals(token.totalSupply,token.decimalUnits,2)}}</p>
+                <span class="btn-group pull-right">
+                <button class="btn btn-primary btn-sm " ng-disabled="token.marketBalance<1" ng-click="withdraw(token)">WITHDRAW</button>
+                <button class="btn btn-primary btn-sm " ng-click="deposit(token)">DEPOSIT</button>    
+            </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>

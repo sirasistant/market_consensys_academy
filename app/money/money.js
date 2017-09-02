@@ -27,6 +27,10 @@ module.exports = ['$rootScope', '$timeout', 'market','notifications', function (
                 reloadMoney();
             });
 
+            var transferListener = $rootScope.$on("LogTransfer", (event, args) => {
+                reloadMoney();
+            });
+
             reloadMoney();
 
             scope.withdraw = ()=>{
@@ -39,6 +43,7 @@ module.exports = ['$rootScope', '$timeout', 'market','notifications', function (
             scope.$on("destroy", () => {
                 moneyAddedListener();
                 withdrawListener();
+                transferListener();
             })
         }
     };
