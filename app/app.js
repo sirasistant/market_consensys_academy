@@ -19,7 +19,7 @@ app.config(function ($locationProvider) {
     $locationProvider.html5Mode(false);
 });
 
-app.run(['$rootScope', 'market', function ($rootScope, market) {
+app.run(['$rootScope', 'market','groupBuy', function ($rootScope, market,groupBuy) {
     web3.eth.getAccountsPromise()
         .then(accounts => {
             if (accounts.length > 0) {

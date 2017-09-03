@@ -13,8 +13,9 @@ module.exports = ['$rootScope', '$timeout', 'market', 'notifications', function 
             scope.search = { seller: account };
 
             async function reloadProducts() {
-                scope.products = await market.getProducts(instance);
-                scope.tokens = await market.getAllowedTokens(instance, account);
+                var results = await Promise.all([market.getProducts(instance),market.getAllowedTokens(instance, account)]);
+                scope.products = results[0];
+                scope.tokens = results[1];
                 scope.products = scope.products.map(product => {
                     product.token = scope.tokens.filter(token => token.instance.address == product.token)[0];
                     product.priceToShow = product.token? (product.price/(Math.pow(10,product.token.decimalUnits))): web3.fromWei(product.price, 'ether');

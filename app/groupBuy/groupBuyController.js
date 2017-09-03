@@ -1,3 +1,3 @@
-module.exports = ['$rootScope', '$timeout', 'market', function ($rootScope, $timeout, market) {
+module.exports = ['$rootScope', '$timeout', 'market','groupBuy', function ($rootScope, $timeout, market) {
     
 }];   

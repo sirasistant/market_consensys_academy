@@ -150,9 +150,8 @@ contract('Market', function (accounts) {
     });
 
     it("Should allow buying products", async () => {
-      await tokenInstance.approveAndCall(instance.address, price, "", { from: buyer });
       var id = await instance.productIds(0);
-      await instance.buyWithTokens(id, { from: buyer });
+      await tokenInstance.approveAndCall(instance.address, price, instance.contract.buyWithTokens.getData(id), { from: buyer });
       var sellerBalance = await instance.tokenBalances(tokenInstance.address, seller);
       assert.equal(sellerBalance.toString(10), "" + (price - fee), "Did not update the amount of the seller correctly");
       var ownerBalance = await instance.tokenBalances(tokenInstance.address,owner);
@@ -160,16 +159,14 @@ contract('Market', function (accounts) {
     });
 
     it("Shouldn't allow buying products paying less", async () => {
-      await tokenInstance.approveAndCall(instance.address, price-1, "", { from: buyer });
       var id = await instance.productIds(0);
-      await web3.eth.expectedExceptionPromise(() => instance.buyWithTokens(id, { from: buyer, gas: 3000000 }), 3000000);
+      await web3.eth.expectedExceptionPromise(() => tokenInstance.approveAndCall(instance.address, price-1, instance.contract.buyWithTokens.getData(id), { from: buyer, gas: 3000000 }), 3000000);
     });
 
     it("Should allow retrieving tokens", async () => {
-      await tokenInstance.approveAndCall(instance.address, price, "", { from: buyer });
       var id = await instance.productIds(0);
-      await instance.buyWithTokens(id, { from: buyer });
-
+      await tokenInstance.approveAndCall(instance.address, price, instance.contract.buyWithTokens.getData(id), { from: buyer });
+      
       var accountBalances = await Promise.all([owner, seller].map(account => tokenInstance.balanceOf(account)));
       var ownerAccountBalance = accountBalances[0];
       var sellerAccountBalance = accountBalances[1];
