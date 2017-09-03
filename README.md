@@ -9,4 +9,4 @@
 * ability to remove products. ✔️
 * co-purchase by different people. 🕗
 * add merchants akin to what Amazon has become. ✔️
-* add the ability to pay with a third-party token. 🕗
+* add the ability to pay with a third-party token. ✔️
