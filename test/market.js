@@ -177,6 +177,21 @@ contract('Market', function (accounts) {
       assert.equal(accountBalances[0].toString(10), ownerAccountBalance.add(fee).toString(10), "Did not retrieve the amount of the owner correctly");
       assert.equal(accountBalances[1].toString(10), sellerAccountBalance.add(price - fee).toString(10), "Did not retrieve the amount of the seller correctly");
     });
+
+
+    it("Should update your balance", async () => {
+      var id = await instance.productIds(0);
+      await tokenInstance.approveAndCall(instance.address, 1000, "", { from: buyer });
+      var balance = await instance.tokenBalances(tokenInstance.address,buyer)
+      assert.equal(balance.toString(10), "1000");
+    });
+
+    it("Shouldn't allow spending other person's tokens", async () => {
+      var id = await instance.productIds(0);
+      await tokenInstance.approveAndCall(instance.address, price, instance.contract.getProductsCount.getData(), { from: buyer });
+      
+      await web3.eth.expectedExceptionPromise(() => instance.buyWithTokens(id, { from: owner, gas: 3000000 }), 3000000);   
+    });
   
   });
 
