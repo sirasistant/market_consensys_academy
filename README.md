@@ -7,6 +7,6 @@
 
 ## Eventually, you will refactor it to include:
 * ability to remove products. ✔️
-* co-purchase by different people. 🕗
+* co-purchase by different people. ✔️
 * add merchants akin to what Amazon has become. ✔️
 * add the ability to pay with a third-party token. ✔️
