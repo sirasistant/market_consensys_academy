@@ -7,12 +7,11 @@ module.exports = ['$rootScope', '$timeout', function ($rootScope, $timeout) {
     GroupBuy.setProvider(web3.currentProvider);
     function mapRequest(array) {
         return {
-            id: array[0],
-            creator: array[1],
-            totalAmount: web3.fromWei(array[2],"ether"),
-            productId: array[3],
-            paid: array[4],
-            price: array[5]
+            creator: array[0],
+            totalAmount: web3.fromWei(array[1],"ether"),
+            productId: array[2],
+            paid: array[3],
+            price: array[4]
         }
 
     }
@@ -24,6 +23,7 @@ module.exports = ['$rootScope', '$timeout', function ($rootScope, $timeout) {
             for(var i = 0;i<count;i++){
                 var id = await instance.buyRequestIds(i);
                 var request = mapRequest(await instance.buyRequests(id));
+                request.id = id;
                 requests.push(request);
             }
             return requests;

@@ -42,15 +42,15 @@ contract('GroupBuy', function (accounts) {
     var requestId = await groupBuyInstance.buyRequestIds(1);
     await groupBuyInstance.joinBuyRequest(requestId, { from: accounts[0], value: 5 });
     var buyRequest = await groupBuyInstance.buyRequests(requestId);
-    assert.equal("5", buyRequest[2].toString(10), "Did not update the amount contributed");
+    assert.equal("5", buyRequest[1].toString(10), "Did not update the amount contributed");
   });
 
   it("Should execute buy requests", async () => {
     var requestId = await groupBuyInstance.buyRequestIds(1);
     await groupBuyInstance.joinBuyRequest(requestId, { from: accounts[0], value: price + 10 });
     var buyRequest = await groupBuyInstance.buyRequests(requestId);
-    var productId = buyRequest[3];
-    var paid = buyRequest[4];
+    var productId = buyRequest[2];
+    var paid = buyRequest[3];
     assert.equal(paid, true);
     var ownerAccountBalance = await marketInstance.balances(accounts[0]);
     assert.equal(ownerAccountBalance.toString(10), "" + (price));
@@ -60,8 +60,8 @@ contract('GroupBuy', function (accounts) {
     var requestId = await groupBuyInstance.buyRequestIds(1);
     await groupBuyInstance.joinBuyRequest(requestId, { from: accounts[0], value: price + 10 });
     var buyRequest = await groupBuyInstance.buyRequests(requestId);
-    var productId = buyRequest[3];
-    var paid = buyRequest[4];
+    var productId = buyRequest[2];
+    var paid = buyRequest[3];
     assert.equal(paid, true);
     await web3.eth.expectedExceptionPromise(() => groupBuyInstance.joinBuyRequest(requestId, { from: accounts[0], value: price + 10, gas: 3000000 }), 3000000);
   });
@@ -72,15 +72,15 @@ contract('GroupBuy', function (accounts) {
     await groupBuyInstance.exitBuyRequest(requestId, { from: accounts[0] });
     assert.equal((await groupBuyInstance.balances(accounts[0])).toString(10), "" + (price - 1));
     var buyRequest = await groupBuyInstance.buyRequests(requestId);
-    assert.equal(buyRequest[2].toString(10), "0");
+    assert.equal(buyRequest[1].toString(10), "0");
   });
 
   it("Shouldn't allow exiting paid buy requests", async () => {
     var requestId = await groupBuyInstance.buyRequestIds(1);
     await groupBuyInstance.joinBuyRequest(requestId, { from: accounts[0], value: price + 10 });
     var buyRequest = await groupBuyInstance.buyRequests(requestId);
-    var productId = buyRequest[3];
-    var paid = buyRequest[4];
+    var productId = buyRequest[2];
+    var paid = buyRequest[3];
     assert.equal(paid, true);
     await web3.eth.expectedExceptionPromise(() => groupBuyInstance.exitBuyRequest(requestId, { from: accounts[0], gas: 3000000 }), 3000000);
   });

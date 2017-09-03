@@ -10,7 +10,6 @@ contract GroupBuy is Owned,Wallet {
     event LogExitedBuyRequest(uint indexed requestId,address indexed collaborator,uint amount);
     
     struct BuyRequest{
-        uint id;
         address creator;
         uint totalAmount;
         uint productId;
@@ -53,7 +52,6 @@ contract GroupBuy is Owned,Wallet {
     returns(uint id){
         id = nextBuyRequestId++;
         uint index = buyRequestIds.push(id)-1;
-        request.id = id;
         request.index = index;
         buyRequests[id] = request;
     }
