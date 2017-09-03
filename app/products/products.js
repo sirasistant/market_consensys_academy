@@ -5,7 +5,8 @@ module.exports = ['$rootScope', '$timeout', 'market', 'notifications', '$locatio
         restrict: 'E',
         scope: {
             account: "=account",
-            marketInstance: "=marketInstance"
+            marketInstance: "=marketInstance",
+            groupBuyInstance: "=groupBuyInstance"
         },
         templateUrl: './products/products.html',
         link: function (scope, element, attrs) {
@@ -16,6 +17,7 @@ module.exports = ['$rootScope', '$timeout', 'market', 'notifications', '$locatio
             scope.search = { id: idSearch, name: nameSearch };
 
             var marketInstance = scope.marketInstance;
+            var groupBuyInstance = scope.groupBuyInstance;
 
             var buyListener = $rootScope.$on("LogBuy", (event, args) => {
                 market.getProduct(marketInstance, args.index).then((product) => {
@@ -42,14 +44,7 @@ module.exports = ['$rootScope', '$timeout', 'market', 'notifications', '$locatio
             });
 
             async function reload() {
-                var results = await Promise.all([market.getProducts(marketInstance),market.getAllowedTokens(marketInstance, scope.account)]);
-                scope.products = results[0];
-                scope.tokens = results[1];
-                scope.products = scope.products.map(product => {
-                    product.token = scope.tokens.filter(token => token.instance.address == product.token)[0];
-                    product.priceToShow = product.token? (product.price/(Math.pow(10,product.token.decimalUnits))): web3.fromWei(product.price, 'ether');
-                    return product;
-                });
+                scope.products = await market.getProductsWithTokens(marketInstance,scope.account);
                 scope.$apply();
             };
 
@@ -64,6 +59,13 @@ module.exports = ['$rootScope', '$timeout', 'market', 'notifications', '$locatio
                     hash = await marketInstance.buy.sendTransaction(product.id, { from: scope.account, value: product.price });                    
                 }
                 notifications.addTransactionNotification(hash);
+                $rootScope.$apply();
+            }
+
+            scope.groupBuy = async (product) => {
+                var hash = await groupBuyInstance.addBuyRequest.sendTransaction(product.id, { from: scope.account });                    
+                notifications.addTransactionNotification(hash);
+                $location.path("/group");
                 $rootScope.$apply();
             }
 

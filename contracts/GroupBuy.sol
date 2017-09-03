@@ -131,6 +131,14 @@ contract GroupBuy is Owned,Wallet {
         return buyRequestIds.length;
     }
     
+    function getCollaborated(uint requestId)
+    public
+    constant
+    existsBuyRequest(requestId)
+    returns (uint amount){
+        return buyRequests[requestId].collaborators[msg.sender];
+    }
+    
 }
 
 

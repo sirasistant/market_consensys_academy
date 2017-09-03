@@ -39,6 +39,17 @@ app.run(['$rootScope', 'market','groupBuy', function ($rootScope, market,groupBu
         });
     });
 
+    groupBuy.getContract().deployed().then(_instance => {
+        console.log("Contract groupBuy at " + _instance.address);
+        $rootScope.groupBuyInstance = _instance;
+        $rootScope.$apply();
+        var events = _instance.allEvents((error, log) => {
+            if (!error)
+                $rootScope.$broadcast(log.event, log.args);
+            $rootScope.$apply();
+        });
+    });
+
 }]);
 
 app.service("market", require("./market.service.js"));
@@ -60,6 +71,9 @@ app.directive("tokenList", require("./tokenList/tokenList.js"));
 app.directive("tokenToolbar", require("./tokenToolbar/tokenToolbar.js"));
 app.directive("addToken", require("./tokenToolbar/addToken/addToken.js"));
 app.directive("depositToken", require("./depositToken/depositToken.js"));
+
+app.directive("buyRequests", require("./buyRequests/buyRequests.js"));
+app.directive("collaborate", require("./buyRequests/collaborate.js"));
 
 
 app.controller('marketController', require('./market/marketController.js'));

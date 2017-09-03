@@ -7,10 +7,10 @@ module.exports = ['$rootScope', '$timeout', function ($rootScope, $timeout) {
     GroupBuy.setProvider(web3.currentProvider);
     function mapRequest(array) {
         return {
-            id: array[0].toNumber(),
+            id: array[0],
             creator: array[1],
-            totalAmount: array[2].toNumber(),
-            productId: array[3].toNumber(),
+            totalAmount: web3.fromWei(array[2],"ether"),
+            productId: array[3],
             paid: array[4],
             price: array[5]
         }
