@@ -41,15 +41,6 @@ contract MarketHub is Owned,Wallet,AllowedTokenManager {
         return true;
     }
     
-    function startShop(address shopAddress)
-    onlyOwner
-    returns (bool success){
-        require(trustedShops[shopAddress]);
-        Shop trustedShop = Shop(shopAddress);
-        trustedShop.setRunning(true);
-        return true;
-    }
-    
     function registerBuy()
     public
     payable
