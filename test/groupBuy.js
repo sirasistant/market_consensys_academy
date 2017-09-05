@@ -1,5 +1,8 @@
-var Market = artifacts.require("./Market.sol");
+var MarketHub = artifacts.require("./MarketHub.sol");
+var Shop = artifacts.require("./Shop.sol");
+var ERC20 = artifacts.require("./ERC20.sol");
 var GroupBuy = artifacts.require("./GroupBuy.sol");
+
 web3.eth.expectedExceptionPromise = require("../app/lib/expectedExceptionPromise.js");
 
 const promisify = (inner) =>
@@ -16,22 +19,26 @@ const getBalance = (account, at) =>
 
 contract('GroupBuy', function (accounts) {
   var groupBuyInstance;
-  var marketInstance;
+  var shopInstance;
+  var hubInstance;
   var price = 20;
   var fee = 4;
 
   beforeEach(async () => {
-    marketInstance = await Market.new(fee);
-    groupBuyInstance = await GroupBuy.new(marketInstance.address);
-    await marketInstance.addProduct(10, 10, "Producto 1","0x0", { from: accounts[0] });
-    await marketInstance.addProduct(price, 3, "Producto 2","0x0", { from: accounts[0] });
-    await marketInstance.addProduct(30, 1, "Producto 3","0x0", { from: accounts[0] });
-    var product1Id = await marketInstance.productIds(0);
-    var product2Id = await marketInstance.productIds(1);
-    var product3Id = await marketInstance.productIds(2);
-    await groupBuyInstance.addBuyRequest(product1Id, { from: accounts[0] });
-    await groupBuyInstance.addBuyRequest(product2Id, { from: accounts[1] });
-    await groupBuyInstance.addBuyRequest(product3Id, { from: accounts[2] });
+    hubInstance = await MarketHub.new(fee);
+    await hubInstance.deployShop(accounts[0]);
+    shopInstance = await Shop.at(await hubInstance.trustedShopAddresses(0));
+    tokenInstance = await ERC20.new(10000, 'MarketCoin', 1, '&', { from: accounts[0] });
+    groupBuyInstance = await GroupBuy.new(hubInstance.address);
+    await shopInstance.addProduct(10, 10, "Producto 1", "0x0", { from: accounts[0] });
+    await shopInstance.addProduct(price, 3, "Producto 2", "0x0", { from: accounts[0] });
+    await shopInstance.addProduct(30, 1, "Producto 3", "0x0", { from: accounts[0] });
+    var product1Id = await shopInstance.productIds(0);
+    var product2Id = await shopInstance.productIds(1);
+    var product3Id = await shopInstance.productIds(2);
+    await groupBuyInstance.addBuyRequest(product1Id,shopInstance.address, { from: accounts[0] });
+    await groupBuyInstance.addBuyRequest(product2Id,shopInstance.address,  { from: accounts[1] });
+    await groupBuyInstance.addBuyRequest(product3Id,shopInstance.address,  { from: accounts[2] });
   });
 
   it("Should add buy requests", async () => {
@@ -52,7 +59,7 @@ contract('GroupBuy', function (accounts) {
     var productId = buyRequest[2];
     var paid = buyRequest[3];
     assert.equal(paid, true);
-    var ownerAccountBalance = await marketInstance.balances(accounts[0]);
+    var ownerAccountBalance = await hubInstance.balances(accounts[0]);
     assert.equal(ownerAccountBalance.toString(10), "" + (price));
   });
 

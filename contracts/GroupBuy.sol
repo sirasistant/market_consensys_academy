@@ -1,20 +1,22 @@
-pragma solidity ^0.4.6;
+pragma solidity 0.4.15;
 
-import "./Market.sol";
+import "./MarketHub.sol";
+import "./Shop.sol";
 
 contract GroupBuy is Owned,Wallet {
     
-    event LogBuyRequestAdded(uint indexed requestId,address indexed creator ,uint indexed productId);
+    event LogBuyRequestAdded(uint indexed requestId,address indexed creator ,bytes32 indexed productId,address shop);
     event LogJoinedBuyRequest(uint indexed requestId,address indexed collaborator,uint amount);
-    event LogBuyRequestExecuted(uint indexed requestId,uint indexed productId);
+    event LogBuyRequestExecuted(uint indexed requestId,bytes32 indexed productId,address indexed shop);
     event LogExitedBuyRequest(uint indexed requestId,address indexed collaborator,uint amount);
     
     struct BuyRequest{
         address creator;
         uint totalAmount;
-        uint productId;
+        bytes32 productId;
         bool paid;
         uint price;
+        address shop;
         mapping(address=>uint) collaborators;
         uint index;
     }
@@ -25,10 +27,10 @@ contract GroupBuy is Owned,Wallet {
     
     uint[] public buyRequestIds;
     
-    Market public market;
+    address public hub;
     
-    function GroupBuy(address marketAddress){
-        market = Market(marketAddress);
+    function GroupBuy(address hubAddress){
+        hub = hubAddress;
     }
     
     modifier existsBuyRequest(uint id){
@@ -36,13 +38,15 @@ contract GroupBuy is Owned,Wallet {
         _;
     }
     
-    modifier productExists(uint id){
-        market.getProduct(id);
+    modifier productExists(bytes32 id,address _shop){
+        Shop shop = Shop(_shop);
+        shop.getProduct(id);
         _;
     }
     
-    modifier productHasStock(uint id){
-        var ( amount, price, name, seller) = market.getProduct(id);
+    modifier productHasStock(bytes32 id,address _shop){
+        Shop shop = Shop(_shop);
+        var ( amount, price, name) = shop.getProduct(id);
         require(amount>0);
         _;
     }
@@ -71,23 +75,28 @@ contract GroupBuy is Owned,Wallet {
     
     function executeBuyRequest(uint requestId)
     internal
-    productHasStock(buyRequests[requestId].productId){
+    productHasStock(buyRequests[requestId].productId,buyRequests[requestId].shop){
         buyRequests[requestId].paid = true;
-        market.buy.value(buyRequests[requestId].totalAmount)(buyRequests[requestId].productId);
+        Shop shop = Shop(buyRequests[requestId].shop);
+        shop.buy.value(buyRequests[requestId].totalAmount)(buyRequests[requestId].productId);
     }
     
-    function addBuyRequest(uint productId)
+    function addBuyRequest(bytes32 productId,address shopAddress)
     public
-    productExists(productId)
-    productHasStock(productId)
     returns(bool success){
-        var ( , price, ,) = market.getProduct(productId);
+        MarketHub hubInstance = MarketHub(hub);
+        require(hubInstance.isTrustedShop(shopAddress));
+        Shop shop = Shop(shopAddress);
+        var ( amount, price, ) = shop.getProduct(productId);
+        require(amount>0);
         BuyRequest memory newBuyRequest;
         newBuyRequest.creator = msg.sender;
         newBuyRequest.productId = productId;
         newBuyRequest.price = price;
+        newBuyRequest.shop = shopAddress;
         uint id = addBuyRequestInternal(newBuyRequest);
-        LogBuyRequestAdded(id,msg.sender,productId);
+        LogBuyRequestAdded(id,msg.sender,productId,shopAddress);
+        
         return true;
     }
     
@@ -97,14 +106,20 @@ contract GroupBuy is Owned,Wallet {
     existsBuyRequest(requestId)
     returns(bool success){
         require(!buyRequests[requestId].paid);
-        buyRequests[requestId].totalAmount += msg.value;
-        buyRequests[requestId].collaborators[msg.sender] += msg.value;
-        if(buyRequests[requestId].totalAmount>=buyRequests[requestId].price){
+        uint amountToAdd = msg.value;
+        if(buyRequests[requestId].totalAmount+amountToAdd>buyRequests[requestId].price){
+            uint diff = buyRequests[requestId].totalAmount+amountToAdd-buyRequests[requestId].price;
+            amountToAdd-=diff;
+            addMoneyInternal(msg.sender,diff);
+        }
+        buyRequests[requestId].totalAmount += amountToAdd;
+        buyRequests[requestId].collaborators[msg.sender] += amountToAdd;
+        if(buyRequests[requestId].totalAmount==buyRequests[requestId].price){
             executeBuyRequest(requestId);
         }
         LogJoinedBuyRequest( requestId,msg.sender,msg.value);
-        if(buyRequests[requestId].totalAmount>=buyRequests[requestId].price){
-            LogBuyRequestExecuted(requestId,buyRequests[requestId].productId);
+        if(buyRequests[requestId].totalAmount==buyRequests[requestId].price){
+            LogBuyRequestExecuted(requestId,buyRequests[requestId].productId,buyRequests[requestId].shop);
         }
         return true;
     }
@@ -117,7 +132,7 @@ contract GroupBuy is Owned,Wallet {
         uint amountContributed = buyRequests[requestId].collaborators[msg.sender];
         buyRequests[requestId].totalAmount -=  amountContributed;
         buyRequests[requestId].collaborators[msg.sender] =0;
-        addMoney(msg.sender,amountContributed);
+        addMoneyInternal(msg.sender,amountContributed);
         LogExitedBuyRequest(requestId,msg.sender,amountContributed);
         return true;
     }

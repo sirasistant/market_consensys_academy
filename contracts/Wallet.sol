@@ -1,4 +1,4 @@
-pragma solidity ^0.4.6;
+pragma solidity 0.4.15;
 
 import "./ERC20.sol";
 
@@ -55,13 +55,13 @@ contract Wallet{
     }
     
     
-    function addMoney(address account, uint amount)
+    function addMoneyInternal(address account, uint amount)
     internal{
         balances[account] += amount;
         LogMoneyAdded(account,amount);
     }
     
-    function addToken(address account,address tokenAddress, uint amount)
+    function addTokenInternal(address account,address tokenAddress, uint amount)
     internal{
         tokenBalances[tokenAddress][account] += amount;
         LogTokenAdded(account,tokenAddress,amount);

@@ -1,4 +1,4 @@
-pragma solidity ^0.4.6;
+pragma solidity 0.4.15;
 
 contract AllowedTokenManager{
     event LogAddAllowedToken(address indexed account);
@@ -12,6 +12,11 @@ contract AllowedTokenManager{
     mapping(address=>AllowedTokenStruct) private allowedTokenStructs;
     
     address[] private allowedTokens;
+    
+    modifier onlyAllowedToken(address account){
+        require(isAllowedToken(account));
+        _;
+    }
     
     function isAllowedToken(address account)
     public
