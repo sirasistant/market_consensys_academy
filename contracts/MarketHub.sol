@@ -32,12 +32,12 @@ contract MarketHub is Owned,Wallet,AllowedTokenManager {
         return true;
     }
     
-    function setShopRunning(address shopAddress)
+    function setShopRunning(address shopAddress,bool status)
     onlyOwner
     returns (bool success){
         require(trustedShops[shopAddress]);
         Shop trustedShop = Shop(shopAddress);
-        trustedShop.setRunning(false);
+        trustedShop.setRunning(status);
         return true;
     }
     
