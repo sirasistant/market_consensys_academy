@@ -43,6 +43,7 @@ contract Shop is Owned,Stoppable {
         _;
     }
     
+    
     function Shop(uint _fee,address _seller) {
         seller = _seller;
         fee = _fee;
@@ -58,6 +59,7 @@ contract Shop is Owned,Stoppable {
     internal
     returns (bytes32 id){
         id = sha3(newProduct.name,newProduct.token,newProduct.price);
+        require(productIds[products[id].index]!=id); //Check for hash collisions
         productIds.push(id);
         newProduct.index = productIds.length-1;
         products[id] = newProduct;
@@ -67,6 +69,7 @@ contract Shop is Owned,Stoppable {
     internal
     productExists(id){
         uint index = products[id].index;
+        delete products[id];
         delete productIds[index];
         if(index!=productIds.length-1){
             bytes32 idToSwap = productIds[productIds.length-1];
