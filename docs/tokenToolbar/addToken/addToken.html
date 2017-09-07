@@ -1,0 +1,18 @@
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">Add token</h3>
+</div>
+<div class="modal-body" id="modal-body">
+    <form class="form-horizontal" name="token">
+        <div class="form-group">
+            <label class="control-label col-sm-3">Address:</label>
+            <div class="col-sm-9">
+                <input required type="text" class="form-control" ng-model="tokenAddress">
+            </div>
+        </div>
+    </form>
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button"  ng-click="addToken()">OK</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+</div>

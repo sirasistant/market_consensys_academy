@@ -1,0 +1,27 @@
+<div class="row">
+    <div class="col-xs-12">
+        <form class="form-inline header-form">
+            <input class="form-control" ng-class="{highlight:search.creator}" placeholder="Search by creator" ng-model="search.creator">
+            <input class="form-control" ng-class="{highlight:search.product.name}" placeholder="Search by product" ng-model="search.product.name">
+        </form>
+    </div>
+    <div class="col-sm-6 col-md-4 col-lg-3" ng-repeat="request in requests | filter:search">
+        <div class="panel panel-default">
+            <div class="panel-heading">{{request.product.name}}</div>
+            <div class="panel-body">
+                <p>Creator: {{request.creator.substring(0,18)}}…</p>
+                <p>Price: {{request.product.priceToShow}} {{request.product.token?request.product.token.symbol:"ether"}}</p>
+                <p>Amount: {{request.totalAmount}} {{request.product.token?request.product.token.symbol:"ether"}}</p>                
+                <p>Collaborated: {{request.collaborated}} {{request.product.token?request.product.token.symbol:"ether"}}</p>
+                <span class="btn-group pull-right">
+                    <button class="btn btn-primary btn-sm " ng-disabled="request.product.amount<1||(request.product.token.marketBalance+request.product.token.balance)<request.product.price" ng-click="collaborate(request)">
+                        <span ng-if="!product.token">COLLABORATE</span>
+                <span ng-if="product.token">COLLABORATE WITH {{product.token.symbol}}</span>
+                </button>
+                <button class="btn btn-warning btn-sm " ng-if="request.collaborated>0" ng-click="exit(request)">EXIT</button>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>

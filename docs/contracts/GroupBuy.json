@@ -1,0 +1,2821 @@
+{
+  "contract_name": "GroupBuy",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "setOwner",
+      "outputs": [
+        {
+          "name": "success",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "requestId",
+          "type": "uint256"
+        }
+      ],
+      "name": "joinBuyRequest",
+      "outputs": [
+        {
+          "name": "success",
+          "type": "bool"
+        }
+      ],
+      "payable": true,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "balances",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "hub",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "withdraw",
+      "outputs": [
+        {
+          "name": "success",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "kill",
+      "outputs": [
+        {
+          "name": "success",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "tokenAddress",
+          "type": "address"
+        }
+      ],
+      "name": "withdrawTokens",
+      "outputs": [
+        {
+          "name": "success",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "tokenBalances",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "requestId",
+          "type": "uint256"
+        }
+      ],
+      "name": "exitBuyRequest",
+      "outputs": [
+        {
+          "name": "success",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getBuyRequestCount",
+      "outputs": [
+        {
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "buyRequestIds",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getOwner",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "productId",
+          "type": "bytes32"
+        },
+        {
+          "name": "shopAddress",
+          "type": "address"
+        }
+      ],
+      "name": "addBuyRequest",
+      "outputs": [
+        {
+          "name": "success",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "buyRequests",
+      "outputs": [
+        {
+          "name": "creator",
+          "type": "address"
+        },
+        {
+          "name": "totalAmount",
+          "type": "uint256"
+        },
+        {
+          "name": "productId",
+          "type": "bytes32"
+        },
+        {
+          "name": "paid",
+          "type": "bool"
+        },
+        {
+          "name": "price",
+          "type": "uint256"
+        },
+        {
+          "name": "shop",
+          "type": "address"
+        },
+        {
+          "name": "index",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "requestId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getCollaborated",
+      "outputs": [
+        {
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "name": "hubAddress",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "requestId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "name": "creator",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "productId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "name": "shop",
+          "type": "address"
+        }
+      ],
+      "name": "LogBuyRequestAdded",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "requestId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "name": "collaborator",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogJoinedBuyRequest",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "requestId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "name": "productId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "name": "shop",
+          "type": "address"
+        }
+      ],
+      "name": "LogBuyRequestExecuted",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "requestId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "name": "collaborator",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogExitedBuyRequest",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "account",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogMoneyAdded",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "account",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "tokenAddress",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogTokenAdded",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "account",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogWithdraw",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "account",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "tokenAddress",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogWithdrawToken",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogTransfer",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "tokenAddress",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogTokenTransfer",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "oldOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "LogOwnerChanged",
+      "type": "event"
+    }
+  ],
+  "unlinked_binary": "0x60606040526000600355341561001457600080fd5b604051602080610ffb833981016040528080519150505b5b60008054600160a060020a03191633600160a060020a03161790555b60068054600160a060020a031916600160a060020a0383161790555b505b610f86806100756000396000f300606060405236156100ca5763ffffffff60e060020a60003504166313af403581146100cf57806325f3f2ef1461010257806327e235e314610121578063365a86fc146101525780633ccfd60b1461018157806341c0e1b5146101a857806349df728c146101cf5780634dbf6c5a1461020257806361d81aed14610239578063674197f814610263578063793c4ee114610288578063893d20e8146102b05780638da5cb5b146102df578063921233b91461030e57806398a45adb14610344578063a8f8c6de146103a6575b600080fd5b34156100da57600080fd5b6100ee600160a060020a03600435166103ce565b604051901515815260200160405180910390f35b6100ee600435610481565b604051901515815260200160405180910390f35b341561012c57600080fd5b610140600160a060020a036004351661064c565b60405190815260200160405180910390f35b341561015d57600080fd5b61016561065e565b604051600160a060020a03909116815260200160405180910390f35b341561018c57600080fd5b6100ee61066d565b604051901515815260200160405180910390f35b34156101b357600080fd5b6100ee610723565b604051901515815260200160405180910390f35b34156101da57600080fd5b6100ee600160a060020a0360043516610750565b604051901515815260200160405180910390f35b341561020d57600080fd5b610140600160a060020a036004358116906024351661086e565b60405190815260200160405180910390f35b341561024457600080fd5b6100ee60043561088b565b604051901515815260200160405180910390f35b341561026e57600080fd5b61014061097d565b60405190815260200160405180910390f35b341561029357600080fd5b610140600435610984565b60405190815260200160405180910390f35b34156102bb57600080fd5b6101656109a7565b604051600160a060020a03909116815260200160405180910390f35b34156102ea57600080fd5b6101656109b7565b604051600160a060020a03909116815260200160405180910390f35b341561031957600080fd5b6100ee600435600160a060020a03602435166109c6565b604051901515815260200160405180910390f35b341561034f57600080fd5b61035a600435610b6b565b604051600160a060020a03978816815260208101969096526040808701959095529215156060860152608085019190915290931660a083015260c082019290925260e001905180910390f35b34156103b157600080fd5b610140600435610bbb565b60405190815260200160405180910390f35b6000805433600160a060020a039081169116146103ea57600080fd5b600160a060020a03821615156103ff57600080fd5b600054600160a060020a03838116911614610477576000805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a038481169182179092559033167ffcf23a92150d56e85e3a3d33b357493246e55783095eb6a733eb8439ffc752c860405160405180910390a350600161047b565b5060005b5b919050565b6000818152600460205260408120600701546005805483928392869283929081106104a857fe5b906000526020600020900160005b5054146104c257600080fd5b60008581526004602052604090206003015460ff16156104e157600080fd5b6000858152600460208190526040909120908101546001909101543494508401111561053657600085815260046020819052604090912090810154600190910154840103928390039291506105363383610c28565b5b600085815260046020818152604080842060018101805489018155600160a060020a03331686526006820184529185208054890190559389905290829052910154905414156105895761058985610c80565b5b33600160a060020a0316857fb53f3a8ddfc053708955c957f587abe103e057ba755928665ebfa9232602341d3460405190815260200160405180910390a3600085815260046020819052604090912090810154600190910154141561063e57600085815260046020526040908190206005810154600290910154600160a060020a039091169187907fd4b9f5ff121d068396d01b33fe9e786371fcfcdd981eba90bd6b617dc9408b97905160405180910390a45b600193505b5b505050919050565b60016020526000908152604090205481565b600654600160a060020a031681565b600160a060020a033316600090815260016020526040812054819081901161069457600080fd5b50600160a060020a033316600081815260016020526040808220805492905590919082156108fc0290839051600060405180830381858888f1935050505015156106dd57600080fd5b33600160a060020a03167f4ce7033d118120e254016dccf195288400b28fc8936425acd5f17ce2df3ab7088260405190815260200160405180910390a2600191505b5090565b6000805433600160a060020a0390811691161461073f57600080fd5b600054600160a060020a0316ff5b90565b600160a060020a038082166000908152600260209081526040808320339094168352929052908120548190819081901161078957600080fd5b5050600160a060020a0382811660008181526002602090815260408083203395861684529091528082208054929055909285929163a9059cbb919085905160e060020a63ffffffff8516028152600160a060020a0390921660048301526024820152604401600060405180830381600087803b151561080757600080fd5b6102c65a03f1151561081857600080fd5b50505083600160a060020a031633600160a060020a03167f46ae78bc7b198b8b534ca0070d125569ac5f955976841c4343223079f3abf0de8460405190815260200160405180910390a3600192505b5050919050565b600260209081526000928352604080842090915290825290205481565b6000818152600460205260408120600701546005805483928592839290919081106108b257fe5b906000526020600020900160005b5054146108cc57600080fd5b60008481526004602052604090206003015460ff16156108eb57600080fd5b600084815260046020908152604080832033600160a060020a0381168552600682019093529083208054600190920180548390039055929092559092506109329083610c28565b33600160a060020a0316847f0705c76458cb755d943dfd3244082d301ba98ea09ad3d9d8453cfb44d90ff63f8460405190815260200160405180910390a3600192505b5b5050919050565b6005545b90565b600580548290811061099257fe5b906000526020600020900160005b5054905081565b600054600160a060020a03165b90565b600054600160a060020a031681565b60008060008060006109d6610ed3565b600654600160a060020a03169450600085631382a65289836040516020015260405160e060020a63ffffffff8416028152600160a060020a039091166004820152602401602060405180830381600087803b1515610a3357600080fd5b6102c65a03f11515610a4457600080fd5b505050604051805190501515610a5957600080fd5b87945084600160a060020a0316633a20e9df8a60006040516060015260405160e060020a63ffffffff84160281526004810191909152602401606060405180830381600087803b1515610aab57600080fd5b6102c65a03f11515610abc57600080fd5b50505060405180519060200180519060200180515091955093505060008411610ae457600080fd5b600160a060020a033381168352604083018a905260808301849052881660a0830152610b0f82610dda565b905088600160a060020a033316827fade16f96cc060b940416ad2fb5b24e6bb86493c4a505c52aaa050d406ad8118f8b604051600160a060020a03909116815260200160405180910390a4600196505b50505050505092915050565b60046020819052600091825260409091208054600182015460028301546003840154948401546005850154600790950154600160a060020a03948516969395929460ff9094169391929091169087565b6000818152600460205260408120600701546005805484928392918110610bde57fe5b906000526020600020900160005b505414610bf857600080fd5b6000838152600460209081526040808320600160a060020a033316845260060190915290205491505b5b50919050565b600160a060020a038216600081815260016020526040908190208054840190557f8f641bb1a9ff925821a7cf03577179f47bf97a85fad81edb1dbacf6a5767c3159083905190815260200160405180910390a25b5050565b60008181526004602052604080822060028101546005909101549091600160a060020a039091169081908490819081908490633a20e9df9088908490516060015260405160e060020a63ffffffff84160281526004810191909152602401606060405180830381600087803b1515610cf757600080fd5b6102c65a03f11515610d0857600080fd5b50505060405180519060200180519060200180519050925092509250600083111515610d3357600080fd5b60008881526004602052604080822060038101805460ff19166001908117909155600582015490820154600290920154600160a060020a039091169a508a93639c9a106193516020015260405160e060020a63ffffffff851602815260048101919091526024016020604051808303818588803b1515610db257600080fd5b6125ee5a03f11515610dc357600080fd5b50505050604051805150505b5b5050505050505050565b600380546001808201909255600580549192600092909190808301610dff8382610f0f565b916000526020600020900160005b508490550360c08401819052600083815260046020526040902090915083908151815473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a03919091161781556020820151816001015560408201516002820155606082015160038201805460ff19169115159190911790556080820151816004015560a082015160058201805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a039290921691909117905560c0820151600790910155505b50919050565b60e06040519081016040908152600080835260208301819052908201819052606082018190526080820181905260a0820181905260c082015290565b815481835581811511610f3357600083815260209020610f33918101908301610f39565b5b505050565b61074d91905b8082111561071f5760008155600101610f3f565b5090565b905600a165627a7a723058206d03f12fbc1842e24e7ae941d93ddad728499602062b477ae9b5dfbc3a3b447a0029",
+  "networks": {
+    "3": {
+      "events": {
+        "0x89e8c10aa09d4313f1a1c63f500534405ac0d1137df4caaa391d43a2cb57242a": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "creator",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "productId",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogBuyRequestAdded",
+          "type": "event"
+        },
+        "0xb53f3a8ddfc053708955c957f587abe103e057ba755928665ebfa9232602341d": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "collaborator",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogJoinedBuyRequest",
+          "type": "event"
+        },
+        "0xe480faea07b4f94d511cf208121e965533b682e684d3cda2ecd66f7cebf0994b": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "productId",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogBuyRequestExecuted",
+          "type": "event"
+        },
+        "0x0705c76458cb755d943dfd3244082d301ba98ea09ad3d9d8453cfb44d90ff63f": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "collaborator",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogExitedBuyRequest",
+          "type": "event"
+        },
+        "0x8f641bb1a9ff925821a7cf03577179f47bf97a85fad81edb1dbacf6a5767c315": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogMoneyAdded",
+          "type": "event"
+        },
+        "0x4ce7033d118120e254016dccf195288400b28fc8936425acd5f17ce2df3ab708": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogWithdraw",
+          "type": "event"
+        },
+        "0xfcf23a92150d56e85e3a3d33b357493246e55783095eb6a733eb8439ffc752c8": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "oldOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "LogOwnerChanged",
+          "type": "event"
+        },
+        "0xade16f96cc060b940416ad2fb5b24e6bb86493c4a505c52aaa050d406ad8118f": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "creator",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "productId",
+              "type": "bytes32"
+            },
+            {
+              "indexed": false,
+              "name": "shop",
+              "type": "address"
+            }
+          ],
+          "name": "LogBuyRequestAdded",
+          "type": "event"
+        },
+        "0xd4b9f5ff121d068396d01b33fe9e786371fcfcdd981eba90bd6b617dc9408b97": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "productId",
+              "type": "bytes32"
+            },
+            {
+              "indexed": true,
+              "name": "shop",
+              "type": "address"
+            }
+          ],
+          "name": "LogBuyRequestExecuted",
+          "type": "event"
+        },
+        "0x83ded1c585a48e261782bbbc8a77aeb32caff94dc4803fc6c8094721165a5490": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "tokenAddress",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogTokenAdded",
+          "type": "event"
+        },
+        "0x46ae78bc7b198b8b534ca0070d125569ac5f955976841c4343223079f3abf0de": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "tokenAddress",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogWithdrawToken",
+          "type": "event"
+        },
+        "0x0a85107a334eae0d22d21cdf13af0f8e8125039ec60baaa843d2c4c5b0680174": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "from",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "to",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogTransfer",
+          "type": "event"
+        },
+        "0x575c37ec23eddea55db69008a746f31470b1856a25e353aabfc4c0ff7e494de1": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "from",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "to",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "tokenAddress",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogTokenTransfer",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x40263d06c52986eff75b713083eff275f9fc9a5e",
+      "updated_at": 1504795120402
+    },
+    "42": {
+      "events": {
+        "0xade16f96cc060b940416ad2fb5b24e6bb86493c4a505c52aaa050d406ad8118f": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "creator",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "productId",
+              "type": "bytes32"
+            },
+            {
+              "indexed": false,
+              "name": "shop",
+              "type": "address"
+            }
+          ],
+          "name": "LogBuyRequestAdded",
+          "type": "event"
+        },
+        "0xb53f3a8ddfc053708955c957f587abe103e057ba755928665ebfa9232602341d": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "collaborator",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogJoinedBuyRequest",
+          "type": "event"
+        },
+        "0xd4b9f5ff121d068396d01b33fe9e786371fcfcdd981eba90bd6b617dc9408b97": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "productId",
+              "type": "bytes32"
+            },
+            {
+              "indexed": true,
+              "name": "shop",
+              "type": "address"
+            }
+          ],
+          "name": "LogBuyRequestExecuted",
+          "type": "event"
+        },
+        "0x0705c76458cb755d943dfd3244082d301ba98ea09ad3d9d8453cfb44d90ff63f": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "collaborator",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogExitedBuyRequest",
+          "type": "event"
+        },
+        "0x8f641bb1a9ff925821a7cf03577179f47bf97a85fad81edb1dbacf6a5767c315": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogMoneyAdded",
+          "type": "event"
+        },
+        "0x83ded1c585a48e261782bbbc8a77aeb32caff94dc4803fc6c8094721165a5490": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "tokenAddress",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogTokenAdded",
+          "type": "event"
+        },
+        "0x4ce7033d118120e254016dccf195288400b28fc8936425acd5f17ce2df3ab708": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogWithdraw",
+          "type": "event"
+        },
+        "0x46ae78bc7b198b8b534ca0070d125569ac5f955976841c4343223079f3abf0de": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "tokenAddress",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogWithdrawToken",
+          "type": "event"
+        },
+        "0x0a85107a334eae0d22d21cdf13af0f8e8125039ec60baaa843d2c4c5b0680174": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "from",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "to",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogTransfer",
+          "type": "event"
+        },
+        "0x575c37ec23eddea55db69008a746f31470b1856a25e353aabfc4c0ff7e494de1": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "from",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "to",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "tokenAddress",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogTokenTransfer",
+          "type": "event"
+        },
+        "0xfcf23a92150d56e85e3a3d33b357493246e55783095eb6a733eb8439ffc752c8": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "oldOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "LogOwnerChanged",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x508cea8a2b53ba322f214f502d9d6a3d534ece23",
+      "updated_at": 1504707198199
+    },
+    "1504131706024": {
+      "events": {
+        "0x89e8c10aa09d4313f1a1c63f500534405ac0d1137df4caaa391d43a2cb57242a": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "creator",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "productId",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogBuyRequestAdded",
+          "type": "event"
+        },
+        "0xb53f3a8ddfc053708955c957f587abe103e057ba755928665ebfa9232602341d": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "collaborator",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogJoinedBuyRequest",
+          "type": "event"
+        },
+        "0xe480faea07b4f94d511cf208121e965533b682e684d3cda2ecd66f7cebf0994b": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "productId",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogBuyRequestExecuted",
+          "type": "event"
+        },
+        "0x0705c76458cb755d943dfd3244082d301ba98ea09ad3d9d8453cfb44d90ff63f": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "collaborator",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogExitedBuyRequest",
+          "type": "event"
+        },
+        "0x8f641bb1a9ff925821a7cf03577179f47bf97a85fad81edb1dbacf6a5767c315": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogMoneyAdded",
+          "type": "event"
+        },
+        "0x4ce7033d118120e254016dccf195288400b28fc8936425acd5f17ce2df3ab708": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogWithdraw",
+          "type": "event"
+        },
+        "0xfcf23a92150d56e85e3a3d33b357493246e55783095eb6a733eb8439ffc752c8": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "oldOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "LogOwnerChanged",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0xecac799ecb0f64fd386eb3f6fad3862d76221209",
+      "updated_at": 1504131830264
+    },
+    "1504192367451": {
+      "events": {
+        "0x89e8c10aa09d4313f1a1c63f500534405ac0d1137df4caaa391d43a2cb57242a": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "creator",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "productId",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogBuyRequestAdded",
+          "type": "event"
+        },
+        "0xb53f3a8ddfc053708955c957f587abe103e057ba755928665ebfa9232602341d": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "collaborator",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogJoinedBuyRequest",
+          "type": "event"
+        },
+        "0xe480faea07b4f94d511cf208121e965533b682e684d3cda2ecd66f7cebf0994b": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "productId",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogBuyRequestExecuted",
+          "type": "event"
+        },
+        "0x0705c76458cb755d943dfd3244082d301ba98ea09ad3d9d8453cfb44d90ff63f": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "collaborator",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogExitedBuyRequest",
+          "type": "event"
+        },
+        "0x8f641bb1a9ff925821a7cf03577179f47bf97a85fad81edb1dbacf6a5767c315": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogMoneyAdded",
+          "type": "event"
+        },
+        "0x4ce7033d118120e254016dccf195288400b28fc8936425acd5f17ce2df3ab708": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogWithdraw",
+          "type": "event"
+        },
+        "0xfcf23a92150d56e85e3a3d33b357493246e55783095eb6a733eb8439ffc752c8": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "oldOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "LogOwnerChanged",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x533a9a6b9f72ae24e23aa9ad8f815a0c56437519",
+      "updated_at": 1504221084038
+    },
+    "1504221201582": {
+      "events": {
+        "0x89e8c10aa09d4313f1a1c63f500534405ac0d1137df4caaa391d43a2cb57242a": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "creator",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "productId",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogBuyRequestAdded",
+          "type": "event"
+        },
+        "0xb53f3a8ddfc053708955c957f587abe103e057ba755928665ebfa9232602341d": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "collaborator",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogJoinedBuyRequest",
+          "type": "event"
+        },
+        "0xe480faea07b4f94d511cf208121e965533b682e684d3cda2ecd66f7cebf0994b": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "productId",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogBuyRequestExecuted",
+          "type": "event"
+        },
+        "0x0705c76458cb755d943dfd3244082d301ba98ea09ad3d9d8453cfb44d90ff63f": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "collaborator",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogExitedBuyRequest",
+          "type": "event"
+        },
+        "0x8f641bb1a9ff925821a7cf03577179f47bf97a85fad81edb1dbacf6a5767c315": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogMoneyAdded",
+          "type": "event"
+        },
+        "0x4ce7033d118120e254016dccf195288400b28fc8936425acd5f17ce2df3ab708": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogWithdraw",
+          "type": "event"
+        },
+        "0xfcf23a92150d56e85e3a3d33b357493246e55783095eb6a733eb8439ffc752c8": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "oldOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "LogOwnerChanged",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x84532f993d5459d732f8cf5d2c1f63ce0840c0fb",
+      "updated_at": 1504262209186
+    },
+    "1504262249447": {
+      "events": {
+        "0x89e8c10aa09d4313f1a1c63f500534405ac0d1137df4caaa391d43a2cb57242a": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "creator",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "productId",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogBuyRequestAdded",
+          "type": "event"
+        },
+        "0xb53f3a8ddfc053708955c957f587abe103e057ba755928665ebfa9232602341d": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "collaborator",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogJoinedBuyRequest",
+          "type": "event"
+        },
+        "0xe480faea07b4f94d511cf208121e965533b682e684d3cda2ecd66f7cebf0994b": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "productId",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogBuyRequestExecuted",
+          "type": "event"
+        },
+        "0x0705c76458cb755d943dfd3244082d301ba98ea09ad3d9d8453cfb44d90ff63f": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "collaborator",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogExitedBuyRequest",
+          "type": "event"
+        },
+        "0x8f641bb1a9ff925821a7cf03577179f47bf97a85fad81edb1dbacf6a5767c315": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogMoneyAdded",
+          "type": "event"
+        },
+        "0x4ce7033d118120e254016dccf195288400b28fc8936425acd5f17ce2df3ab708": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogWithdraw",
+          "type": "event"
+        },
+        "0xfcf23a92150d56e85e3a3d33b357493246e55783095eb6a733eb8439ffc752c8": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "oldOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "LogOwnerChanged",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x817e22d5049499d37a78a710c407f9b55a77ae34",
+      "updated_at": 1504273600561
+    },
+    "1504273678087": {
+      "events": {
+        "0x89e8c10aa09d4313f1a1c63f500534405ac0d1137df4caaa391d43a2cb57242a": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "creator",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "productId",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogBuyRequestAdded",
+          "type": "event"
+        },
+        "0xb53f3a8ddfc053708955c957f587abe103e057ba755928665ebfa9232602341d": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "collaborator",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogJoinedBuyRequest",
+          "type": "event"
+        },
+        "0xe480faea07b4f94d511cf208121e965533b682e684d3cda2ecd66f7cebf0994b": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "productId",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogBuyRequestExecuted",
+          "type": "event"
+        },
+        "0x0705c76458cb755d943dfd3244082d301ba98ea09ad3d9d8453cfb44d90ff63f": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "collaborator",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogExitedBuyRequest",
+          "type": "event"
+        },
+        "0x8f641bb1a9ff925821a7cf03577179f47bf97a85fad81edb1dbacf6a5767c315": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogMoneyAdded",
+          "type": "event"
+        },
+        "0x4ce7033d118120e254016dccf195288400b28fc8936425acd5f17ce2df3ab708": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogWithdraw",
+          "type": "event"
+        },
+        "0xfcf23a92150d56e85e3a3d33b357493246e55783095eb6a733eb8439ffc752c8": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "oldOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "LogOwnerChanged",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x7fa2c40928c7cf67e85b4c403ad0920a27356e8a",
+      "updated_at": 1504274803631
+    },
+    "1504274941386": {
+      "events": {
+        "0x89e8c10aa09d4313f1a1c63f500534405ac0d1137df4caaa391d43a2cb57242a": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "creator",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "productId",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogBuyRequestAdded",
+          "type": "event"
+        },
+        "0xb53f3a8ddfc053708955c957f587abe103e057ba755928665ebfa9232602341d": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "collaborator",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogJoinedBuyRequest",
+          "type": "event"
+        },
+        "0xe480faea07b4f94d511cf208121e965533b682e684d3cda2ecd66f7cebf0994b": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "productId",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogBuyRequestExecuted",
+          "type": "event"
+        },
+        "0x0705c76458cb755d943dfd3244082d301ba98ea09ad3d9d8453cfb44d90ff63f": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "collaborator",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogExitedBuyRequest",
+          "type": "event"
+        },
+        "0x8f641bb1a9ff925821a7cf03577179f47bf97a85fad81edb1dbacf6a5767c315": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogMoneyAdded",
+          "type": "event"
+        },
+        "0x4ce7033d118120e254016dccf195288400b28fc8936425acd5f17ce2df3ab708": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogWithdraw",
+          "type": "event"
+        },
+        "0xfcf23a92150d56e85e3a3d33b357493246e55783095eb6a733eb8439ffc752c8": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "oldOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "LogOwnerChanged",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0xa7a16a5f894a9a320f31c4134c6178cf4801e1df",
+      "updated_at": 1504274949284
+    },
+    "1504290241894": {
+      "events": {
+        "0x89e8c10aa09d4313f1a1c63f500534405ac0d1137df4caaa391d43a2cb57242a": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "creator",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "productId",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogBuyRequestAdded",
+          "type": "event"
+        },
+        "0xb53f3a8ddfc053708955c957f587abe103e057ba755928665ebfa9232602341d": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "collaborator",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogJoinedBuyRequest",
+          "type": "event"
+        },
+        "0xe480faea07b4f94d511cf208121e965533b682e684d3cda2ecd66f7cebf0994b": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "productId",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogBuyRequestExecuted",
+          "type": "event"
+        },
+        "0x0705c76458cb755d943dfd3244082d301ba98ea09ad3d9d8453cfb44d90ff63f": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "collaborator",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogExitedBuyRequest",
+          "type": "event"
+        },
+        "0x8f641bb1a9ff925821a7cf03577179f47bf97a85fad81edb1dbacf6a5767c315": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogMoneyAdded",
+          "type": "event"
+        },
+        "0x4ce7033d118120e254016dccf195288400b28fc8936425acd5f17ce2df3ab708": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogWithdraw",
+          "type": "event"
+        },
+        "0xfcf23a92150d56e85e3a3d33b357493246e55783095eb6a733eb8439ffc752c8": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "oldOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "LogOwnerChanged",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x4e7ca161aa7a539a91979d01d67e3c04b0ed2dbb",
+      "updated_at": 1504290293999
+    },
+    "1504300429131": {
+      "events": {
+        "0x89e8c10aa09d4313f1a1c63f500534405ac0d1137df4caaa391d43a2cb57242a": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "creator",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "productId",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogBuyRequestAdded",
+          "type": "event"
+        },
+        "0xb53f3a8ddfc053708955c957f587abe103e057ba755928665ebfa9232602341d": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "collaborator",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogJoinedBuyRequest",
+          "type": "event"
+        },
+        "0xe480faea07b4f94d511cf208121e965533b682e684d3cda2ecd66f7cebf0994b": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "productId",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogBuyRequestExecuted",
+          "type": "event"
+        },
+        "0x0705c76458cb755d943dfd3244082d301ba98ea09ad3d9d8453cfb44d90ff63f": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "collaborator",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogExitedBuyRequest",
+          "type": "event"
+        },
+        "0x8f641bb1a9ff925821a7cf03577179f47bf97a85fad81edb1dbacf6a5767c315": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogMoneyAdded",
+          "type": "event"
+        },
+        "0x4ce7033d118120e254016dccf195288400b28fc8936425acd5f17ce2df3ab708": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogWithdraw",
+          "type": "event"
+        },
+        "0xfcf23a92150d56e85e3a3d33b357493246e55783095eb6a733eb8439ffc752c8": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "oldOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "LogOwnerChanged",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0xf02254a9d61cc0bd3eef341a9647b6f09b9b3d68",
+      "updated_at": 1504348558199
+    },
+    "1504399417289": {
+      "events": {
+        "0x89e8c10aa09d4313f1a1c63f500534405ac0d1137df4caaa391d43a2cb57242a": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "creator",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "productId",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogBuyRequestAdded",
+          "type": "event"
+        },
+        "0xb53f3a8ddfc053708955c957f587abe103e057ba755928665ebfa9232602341d": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "collaborator",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogJoinedBuyRequest",
+          "type": "event"
+        },
+        "0xe480faea07b4f94d511cf208121e965533b682e684d3cda2ecd66f7cebf0994b": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "productId",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogBuyRequestExecuted",
+          "type": "event"
+        },
+        "0x0705c76458cb755d943dfd3244082d301ba98ea09ad3d9d8453cfb44d90ff63f": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "collaborator",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogExitedBuyRequest",
+          "type": "event"
+        },
+        "0x8f641bb1a9ff925821a7cf03577179f47bf97a85fad81edb1dbacf6a5767c315": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogMoneyAdded",
+          "type": "event"
+        },
+        "0x4ce7033d118120e254016dccf195288400b28fc8936425acd5f17ce2df3ab708": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogWithdraw",
+          "type": "event"
+        },
+        "0xfcf23a92150d56e85e3a3d33b357493246e55783095eb6a733eb8439ffc752c8": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "oldOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "LogOwnerChanged",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x70aa8c07fd0f420d9f40cebd888b692c6e1ca51b",
+      "updated_at": 1504399421390
+    },
+    "1504399608861": {
+      "events": {
+        "0x89e8c10aa09d4313f1a1c63f500534405ac0d1137df4caaa391d43a2cb57242a": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "creator",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "productId",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogBuyRequestAdded",
+          "type": "event"
+        },
+        "0xb53f3a8ddfc053708955c957f587abe103e057ba755928665ebfa9232602341d": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "collaborator",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogJoinedBuyRequest",
+          "type": "event"
+        },
+        "0xe480faea07b4f94d511cf208121e965533b682e684d3cda2ecd66f7cebf0994b": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "productId",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogBuyRequestExecuted",
+          "type": "event"
+        },
+        "0x0705c76458cb755d943dfd3244082d301ba98ea09ad3d9d8453cfb44d90ff63f": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "collaborator",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogExitedBuyRequest",
+          "type": "event"
+        },
+        "0x8f641bb1a9ff925821a7cf03577179f47bf97a85fad81edb1dbacf6a5767c315": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogMoneyAdded",
+          "type": "event"
+        },
+        "0x4ce7033d118120e254016dccf195288400b28fc8936425acd5f17ce2df3ab708": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogWithdraw",
+          "type": "event"
+        },
+        "0xfcf23a92150d56e85e3a3d33b357493246e55783095eb6a733eb8439ffc752c8": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "oldOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "LogOwnerChanged",
+          "type": "event"
+        },
+        "0x83ded1c585a48e261782bbbc8a77aeb32caff94dc4803fc6c8094721165a5490": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "tokenAddress",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogTokenAdded",
+          "type": "event"
+        },
+        "0x46ae78bc7b198b8b534ca0070d125569ac5f955976841c4343223079f3abf0de": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "tokenAddress",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogWithdrawToken",
+          "type": "event"
+        },
+        "0x0a85107a334eae0d22d21cdf13af0f8e8125039ec60baaa843d2c4c5b0680174": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "from",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "to",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogTransfer",
+          "type": "event"
+        },
+        "0x575c37ec23eddea55db69008a746f31470b1856a25e353aabfc4c0ff7e494de1": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "from",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "to",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "tokenAddress",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogTokenTransfer",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x5a5ec6b99df83fddb8223fda3c7a19cd37afcc32",
+      "updated_at": 1504473615690
+    },
+    "1504627863311": {
+      "events": {
+        "0xade16f96cc060b940416ad2fb5b24e6bb86493c4a505c52aaa050d406ad8118f": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "creator",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "productId",
+              "type": "bytes32"
+            },
+            {
+              "indexed": false,
+              "name": "shop",
+              "type": "address"
+            }
+          ],
+          "name": "LogBuyRequestAdded",
+          "type": "event"
+        },
+        "0xb53f3a8ddfc053708955c957f587abe103e057ba755928665ebfa9232602341d": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "collaborator",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogJoinedBuyRequest",
+          "type": "event"
+        },
+        "0xd4b9f5ff121d068396d01b33fe9e786371fcfcdd981eba90bd6b617dc9408b97": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "productId",
+              "type": "bytes32"
+            },
+            {
+              "indexed": true,
+              "name": "shop",
+              "type": "address"
+            }
+          ],
+          "name": "LogBuyRequestExecuted",
+          "type": "event"
+        },
+        "0x0705c76458cb755d943dfd3244082d301ba98ea09ad3d9d8453cfb44d90ff63f": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "requestId",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "name": "collaborator",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogExitedBuyRequest",
+          "type": "event"
+        },
+        "0x8f641bb1a9ff925821a7cf03577179f47bf97a85fad81edb1dbacf6a5767c315": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogMoneyAdded",
+          "type": "event"
+        },
+        "0x83ded1c585a48e261782bbbc8a77aeb32caff94dc4803fc6c8094721165a5490": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "tokenAddress",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogTokenAdded",
+          "type": "event"
+        },
+        "0x4ce7033d118120e254016dccf195288400b28fc8936425acd5f17ce2df3ab708": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogWithdraw",
+          "type": "event"
+        },
+        "0x46ae78bc7b198b8b534ca0070d125569ac5f955976841c4343223079f3abf0de": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "tokenAddress",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogWithdrawToken",
+          "type": "event"
+        },
+        "0x0a85107a334eae0d22d21cdf13af0f8e8125039ec60baaa843d2c4c5b0680174": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "from",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "to",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogTransfer",
+          "type": "event"
+        },
+        "0x575c37ec23eddea55db69008a746f31470b1856a25e353aabfc4c0ff7e494de1": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "from",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "to",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "tokenAddress",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "name": "LogTokenTransfer",
+          "type": "event"
+        },
+        "0xfcf23a92150d56e85e3a3d33b357493246e55783095eb6a733eb8439ffc752c8": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "oldOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "LogOwnerChanged",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0xe05f1ff3d48b041f144b90633935f4816127fb1c",
+      "updated_at": 1504637416503
+    }
+  },
+  "schema_version": "0.0.5",
+  "updated_at": 1504795120402
+}

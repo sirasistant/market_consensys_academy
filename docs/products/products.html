@@ -1,12 +1,22 @@
 <div class="row">
-    <div class="col-sm-6 col-md-4 col-lg-3" ng-repeat="product in products">
+    <div class="col-xs-12">
+        <form class="form-inline header-form">
+            <input class="form-control" ng-class="{highlight:search.name}"  placeholder="Search by name" ng-model="search.name">
+        </form>
+    </div>
+    <div class="col-sm-6 col-md-4 col-lg-3" ng-repeat="product in products | filter:search">
         <div class="panel panel-default">
             <div class="panel-heading">{{product.name}}</div>
             <div class="panel-body">
-                <p>Price: {{product.priceToShow}} ether</p>
+                <p>Currency: {{product.token?product.token.name:"Ether"}}</p>
+                <p>Price: {{product.priceToShow}} {{product.token?product.token.symbol:"ether"}}</p>
                 <p>Stock: {{product.amount}} units</p>
                 <span class="btn-group pull-right">
-                <button class="btn btn-primary btn-sm " ng-disabled="product.amount<1" ng-click="buy(product)">BUY</button>
+                <button class="btn btn-primary btn-sm " ng-disabled="product.amount<1||(product.token.marketBalance+product.token.balance)<product.price" ng-if="!product.token" ng-click="groupBuy(product)">GROUP BUY</button>                            
+                <button class="btn btn-primary btn-sm " ng-disabled="product.amount<1||(product.token.marketBalance+product.token.balance)<product.price" ng-click="buy(product)">
+                    <span ng-if="!product.token">BUY</span>
+                    <span ng-if="product.token">BUY WITH {{product.token.symbol}}</span>
+                </button>
                 <button class="btn btn-danger btn-sm " ng-if="product.seller==account" ng-click="delete(product)">DELETE</button>    
             </span>
                 <div class="clearfix"></div>

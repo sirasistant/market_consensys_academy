@@ -1,0 +1,82 @@
+{
+  "contract_name": "AllowedTokenManager",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "index",
+          "type": "uint256"
+        }
+      ],
+      "name": "getAllowedTokenAt",
+      "outputs": [
+        {
+          "name": "allowedToken",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getAllowedTokensCount",
+      "outputs": [
+        {
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "isAllowedToken",
+      "outputs": [
+        {
+          "name": "isIndeed",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "LogAddAllowedToken",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "LogRemoveAllowedToken",
+      "type": "event"
+    }
+  ],
+  "unlinked_binary": "0x6060604052341561000f57600080fd5b5b6101ae8061001f6000396000f300606060405263ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416631291ebdd81146100535780631514864914610092578063cbe230c3146100b7575b600080fd5b341561005e57600080fd5b6100696004356100f7565b60405173ffffffffffffffffffffffffffffffffffffffff909116815260200160405180910390f35b341561009d57600080fd5b6100a561014c565b60405190815260200160405180910390f35b34156100c257600080fd5b6100e373ffffffffffffffffffffffffffffffffffffffff60043516610153565b604051901515815260200160405180910390f35b60015460009082901161010957600080fd5b600180548390811061011757fe5b906000526020600020900160005b9054906101000a900473ffffffffffffffffffffffffffffffffffffffff1690505b919050565b6001545b90565b73ffffffffffffffffffffffffffffffffffffffff811660009081526020819052604090205460ff165b9190505600a165627a7a7230582032a413d7344eecdb3d911515398fbabeaf381ef7e981a0a909f53ee7702c14560029",
+  "networks": {},
+  "schema_version": "0.0.5",
+  "updated_at": 1504707127549
+}

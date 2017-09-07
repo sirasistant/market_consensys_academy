@@ -33,10 +33,50 @@
       "type": "function"
     },
     {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "tokenAddress",
+          "type": "address"
+        }
+      ],
+      "name": "withdrawTokens",
+      "outputs": [
+        {
+          "name": "success",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "tokenBalances",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
       "anonymous": false,
       "inputs": [
         {
-          "indexed": false,
+          "indexed": true,
           "name": "account",
           "type": "address"
         },
@@ -53,7 +93,29 @@
       "anonymous": false,
       "inputs": [
         {
+          "indexed": true,
+          "name": "account",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "tokenAddress",
+          "type": "address"
+        },
+        {
           "indexed": false,
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogTokenAdded",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
           "name": "account",
           "type": "address"
         },
@@ -65,10 +127,81 @@
       ],
       "name": "LogWithdraw",
       "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "account",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "tokenAddress",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogWithdrawToken",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogTransfer",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "tokenAddress",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogTokenTransfer",
+      "type": "event"
     }
   ],
-  "unlinked_binary": "0x6060604052341561000f57600080fd5b5b6101828061001f6000396000f300606060405263ffffffff60e060020a60003504166327e235e3811461002f5780633ccfd60b14610060575b600080fd5b341561003a57600080fd5b61004e600160a060020a0360043516610087565b60405190815260200160405180910390f35b341561006b57600080fd5b610073610099565b604051901515815260200160405180910390f35b60006020819052908152604090205481565b600160a060020a03331660009081526020819052604081205481908190116100c057600080fd5b50600160a060020a033316600081815260208190526040808220805492905590919082156108fc0290839051600060405180830381858888f19350505050151561010957600080fd5b7f4ce7033d118120e254016dccf195288400b28fc8936425acd5f17ce2df3ab7083382604051600160a060020a03909216825260208201526040908101905180910390a1600191505b50905600a165627a7a723058205a43103cc9a23ec20f3ff16cb1571d19acafefab8319a033c975d29aed63ab270029",
+  "unlinked_binary": "0x6060604052341561000f57600080fd5b5b6103688061001f6000396000f300606060405263ffffffff7c010000000000000000000000000000000000000000000000000000000060003504166327e235e3811461005e5780633ccfd60b1461008f57806349df728c146100b65780634dbf6c5a146100e9575b600080fd5b341561006957600080fd5b61007d600160a060020a0360043516610120565b60405190815260200160405180910390f35b341561009a57600080fd5b6100a2610132565b604051901515815260200160405180910390f35b34156100c157600080fd5b6100a2600160a060020a03600435166101e8565b604051901515815260200160405180910390f35b34156100f457600080fd5b61007d600160a060020a036004358116906024351661031f565b60405190815260200160405180910390f35b60006020819052908152604090205481565b600160a060020a033316600090815260208190526040812054819081901161015957600080fd5b50600160a060020a033316600081815260208190526040808220805492905590919082156108fc0290839051600060405180830381858888f1935050505015156101a257600080fd5b33600160a060020a03167f4ce7033d118120e254016dccf195288400b28fc8936425acd5f17ce2df3ab7088260405190815260200160405180910390a2600191505b5090565b600160a060020a038082166000908152600160209081526040808320339094168352929052908120548190819081901161022157600080fd5b5050600160a060020a0382811660008181526001602090815260408083203395861684529091528082208054929055909285929163a9059cbb91908590517c010000000000000000000000000000000000000000000000000000000063ffffffff8516028152600160a060020a0390921660048301526024820152604401600060405180830381600087803b15156102b857600080fd5b6102c65a03f115156102c957600080fd5b50505083600160a060020a031633600160a060020a03167f46ae78bc7b198b8b534ca0070d125569ac5f955976841c4343223079f3abf0de8460405190815260200160405180910390a3600192505b5050919050565b6001602090815260009283526040808420909152908252902054815600a165627a7a7230582016c5a58e69b105d99640df074df1e12267214a1197bf6f5741f2aeac80eb86f90029",
   "networks": {},
   "schema_version": "0.0.5",
-  "updated_at": 1503963985413
+  "updated_at": 1504707127550
 }

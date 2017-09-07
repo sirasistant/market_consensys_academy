@@ -12,7 +12,9 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              
+                <li ng-class="{'active':currentPath=='/'}" ng-click="navigate('/')"><a href="javascript:void(0)" >PRODUCTS</a></li>
+                <li ng-class="{'active':currentPath=='/group'}"  ng-click="navigate('/group')"><a href="javascript:void(0)" >GROUP BUY</a></li>
+                <li ng-class="{'active':currentPath=='/tokens'}"  ng-click="navigate('/tokens')"><a href="javascript:void(0)" >TOKENS</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="javascript:void(0)">{{account}}</a></li>

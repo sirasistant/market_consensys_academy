@@ -25,6 +25,15 @@ app.run(['$rootScope', 'market', 'groupBuy', function ($rootScope, market, group
             if (accounts.length > 0) {
                 $rootScope.account = accounts[0];
                 $rootScope.$apply();
+            } else {
+                if (typeof (mist) !== "undefined") {
+                    mist.requestAccount(function (e, accounts) {
+                        if (e != null) {
+                            $rootScope.account = accounts[0];
+                            $rootScope.$apply();
+                        }
+                    });
+                }
             }
         }).catch(console.error);
 
@@ -38,7 +47,7 @@ app.run(['$rootScope', 'market', 'groupBuy', function ($rootScope, market, group
             $rootScope.$apply();
         });
         market.getShops(_instance).then(shopInstances => {
-            console.log(shopInstances.length+" shops at: "+shopInstances.map(instance=>instance.address).join(", "));
+            console.log(shopInstances.length + " shops at: " + shopInstances.map(instance => instance.address).join(", "));
             $rootScope.shopInstances = shopInstances;
             $rootScope.$apply();
             shopInstances.forEach((shop) => {
