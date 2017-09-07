@@ -18,6 +18,7 @@ contract Shop is Owned,Stoppable {
         bytes32 name;
         address token;
         uint index;
+        bool exists;
     }
     
     bytes32[] public productIds;
@@ -59,9 +60,10 @@ contract Shop is Owned,Stoppable {
     internal
     returns (bytes32 id){
         id = sha3(newProduct.name,newProduct.token,newProduct.price);
-        //require(productIds[products[id].index]!=id); Check for hash collisions
+        require(!products[id].exists); //Check for hash collisions
         productIds.push(id);
         newProduct.index = productIds.length-1;
+        newProduct.exists = true;
         products[id] = newProduct;
     }
     
