@@ -91,6 +91,13 @@ contract MarketHub is Owned,Wallet,AllowedTokenManager {
         return insertAllowedTokenInternal(account);
     }
     
+    function getTrustedShopCount()
+    public
+    constant
+    returns (uint count){
+        return trustedShopAddresses.length; 
+    }
+    
 }
 
 

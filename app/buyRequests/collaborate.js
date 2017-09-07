@@ -8,9 +8,10 @@ module.exports = ['$rootScope', '$timeout', 'market','notifications', function (
         },
         templateUrl: './buyRequests/collaborate.html',
         link: function (scope, element, attrs) {
-            var marketInstance = scope.$root.marketInstance;
-            var groupBuyInstance = scope.$root.groupBuyInstance;
-            var account = scope.$root.account;
+            var hubInstance = scope.$parent.$resolve.hubInstance;
+            var groupBuyInstance = scope.$parent.$resolve.groupBuyInstance;
+            var shopInstances = scope.$parent.$resolve.shopInstances;
+            var account = scope.$parent.$resolve.account;
             scope.request = scope.$parent.$resolve.request;
 
             scope.amount = 1;

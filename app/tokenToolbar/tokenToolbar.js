@@ -1,6 +1,6 @@
 var Promise = require("bluebird");
 
-module.exports = ['$rootScope', '$timeout', 'market', '$uibModal','notifications', function ($rootScope, $timeout, market, $uibModal,notifications) {
+module.exports = ['$rootScope', '$timeout', 'market', '$uibModal', 'notifications', function ($rootScope, $timeout, market, $uibModal, notifications) {
     return {
         restrict: 'E',
         scope: {
@@ -13,7 +13,7 @@ module.exports = ['$rootScope', '$timeout', 'market', '$uibModal','notifications
             var reloadPrivileges = async () => {
                 try {
                     var instance = scope.instance;
-                    scope.isAdmin = await instance.isAdmin(scope.account);
+                    scope.isOwner = (await instance.owner()) == scope.account;
                     scope.$apply();
                 } catch (error) {
                     console.log(error);
@@ -28,6 +28,8 @@ module.exports = ['$rootScope', '$timeout', 'market', '$uibModal','notifications
                     animation: true,
                     component: 'addToken',
                     resolve: {
+                        hubInstance:()=>scope.instance,
+                        account:()=>scope.account
                     }
                 });
 

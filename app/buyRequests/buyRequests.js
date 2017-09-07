@@ -1,11 +1,12 @@
 var Promise = require("bluebird");
 
-module.exports = ['$rootScope', '$timeout', 'market', 'groupBuy','notifications', '$uibModal','$location', function ($rootScope, $timeout, market,groupBuy, notifications,$uibModal, $location) {
+module.exports = ['$rootScope', '$timeout', 'market', 'groupBuy', 'notifications', '$uibModal', '$location', function ($rootScope, $timeout, market, groupBuy, notifications, $uibModal, $location) {
     return {
         restrict: 'E',
         scope: {
             account: "=account",
-            marketInstance: "=marketInstance",
+            hubInstance: "=hubInstance",
+            shopInstances: "=shopInstances",
             groupBuyInstance: "=groupBuyInstance"
         },
         templateUrl: './buyRequests/buyRequests.html',
@@ -13,16 +14,18 @@ module.exports = ['$rootScope', '$timeout', 'market', 'groupBuy','notifications'
 
             var idSearch = $location.search().requestId;
 
-            scope.search = { id: idSearch,paid:false };
+            scope.search = { id: idSearch, paid: false };
 
-            var marketInstance = scope.marketInstance;
+            var hubInstance = scope.hubInstance;
             var groupBuyInstance = scope.groupBuyInstance;
+            var shopInstances = scope.shopInstances;
+            var account = scope.account;
 
-            async function reload(){
+            async function reload() {
                 var requests = await groupBuy.getRequests(groupBuyInstance);
-                var products = await market.getProductsWithTokens(marketInstance,scope.account);
-                requests = requests.map(request=>{
-                    var product = products.filter(product=>product.id.equals(request.productId))[0];
+                var products = await market.getProductsWithTokens(shopInstances, hubInstance, scope.account);
+                requests = requests.map(request => {
+                    var product = products.filter(product => product.id == request.productId)[0];
                     request.product = product;
                     return request;
                 });
@@ -48,12 +51,16 @@ module.exports = ['$rootScope', '$timeout', 'market', 'groupBuy','notifications'
 
             reload();
 
-            scope.collaborate = async (request)=>{
+            scope.collaborate = async (request) => {
                 var modalInstance = $uibModal.open({
                     animation: true,
                     component: 'collaborate',
                     resolve: {
-                        request:()=>request
+                        request: () => request,
+                        shopInstances : ()=>scope.shopInstances,
+                        account: ()=>scope.account,
+                        hubInstance: ()=>scope.hubInstance,
+                        groupBuyInstance:()=>groupBuyInstance
                     }
                 });
 
@@ -62,7 +69,7 @@ module.exports = ['$rootScope', '$timeout', 'market', 'groupBuy','notifications'
                 }, () => { });
             }
 
-            scope.exit = async (request)=>{
+            scope.exit = async (request) => {
                 var hash = await marketInstance.exitBuyRequest.sendTransaction(request.id, { from: scope.account });
                 notifications.addTransactionNotification(hash);
                 $rootScope.$apply();

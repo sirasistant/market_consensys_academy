@@ -5,7 +5,8 @@ module.exports = ['$rootScope', '$timeout', 'market', 'notifications', '$locatio
         restrict: 'E',
         scope: {
             account: "=account",
-            marketInstance: "=marketInstance",
+            shopInstances: "=shopInstances",
+            hubInstance: "=hubInstance",
             groupBuyInstance: "=groupBuyInstance"
         },
         templateUrl: './products/products.html',
@@ -16,21 +17,28 @@ module.exports = ['$rootScope', '$timeout', 'market', 'notifications', '$locatio
 
             scope.search = { id: idSearch, name: nameSearch };
 
-            var marketInstance = scope.marketInstance;
+            var shopInstances = scope.shopInstances;
             var groupBuyInstance = scope.groupBuyInstance;
+            var hubInstance = scope.hubInstance;
 
             var buyListener = $rootScope.$on("LogBuy", (event, args) => {
-                market.getProduct(marketInstance, args.index).then((product) => {
-                    if (scope.products)
-                        scope.products[args.index.toNumber()] = product;
+                market.getProductWithToken(scope.hubInstance, args.shopInstance, scope.account, args.id).then((product) => {
+                    scope.products.forEach((savedProduct, index) => {
+                        if (savedProduct.id == product.id) {
+                            scope.products[index] = product;
+                        }
+                    });
                     scope.$apply();
                 });
             });
 
             var stockChangedListener = $rootScope.$on("LogStockChanged", (event, args) => {
-                market.getProduct(marketInstance, args.index).then((product) => {
-                    if (scope.products)
-                        scope.products[args.index.toNumber()] = product;
+                market.getProductWithToken(scope.hubInstance, args.shopInstance, scope.account, args.id).then((product) => {
+                    scope.products.forEach((savedProduct, index) => {
+                        if (savedProduct.id == product.id) {
+                            scope.products[index] = product;
+                        }
+                    });
                     scope.$apply();
                 });
             });
@@ -44,7 +52,7 @@ module.exports = ['$rootScope', '$timeout', 'market', 'notifications', '$locatio
             });
 
             async function reload() {
-                scope.products = await market.getProductsWithTokens(marketInstance,scope.account);
+                scope.products = await market.getProductsWithTokens(shopInstances, hubInstance, scope.account);
                 scope.$apply();
             };
 
@@ -52,25 +60,25 @@ module.exports = ['$rootScope', '$timeout', 'market', 'notifications', '$locatio
 
             scope.buy = async (product) => {
                 var hash;
-                if(product.token){ //TODO fill data
-                    var callData = marketInstance.contract.buyWithTokens.getData(product.id);
-                    hash = await product.token.instance.approveAndCall.sendTransaction(marketInstance.address,product.price,callData, { from: scope.account });
-                }else{
-                    hash = await marketInstance.buy.sendTransaction(product.id, { from: scope.account, value: product.price });                    
+                if (product.token) { 
+                    var callData = product.shop.contract.buyWithTokens.getData(product.id);
+                    hash = await product.token.instance.approveAndCall.sendTransaction(product.shop.address, product.price, callData, { from: scope.account });
+                } else {
+                    hash = await product.shop.buy.sendTransaction(product.id, { from: scope.account, value: product.price });
                 }
                 notifications.addTransactionNotification(hash);
                 $rootScope.$apply();
             }
 
             scope.groupBuy = async (product) => {
-                var hash = await groupBuyInstance.addBuyRequest.sendTransaction(product.id, { from: scope.account });                    
+                var hash = await groupBuyInstance.addBuyRequest.sendTransaction(product.id,product.shop.address, { from: scope.account });
                 notifications.addTransactionNotification(hash);
                 $location.path("/group");
                 $rootScope.$apply();
             }
 
             scope.delete = async (product) => {
-                var hash = await marketInstance.deleteProduct.sendTransaction(product.id, { from: scope.account });
+                var hash = await product.shop.deleteProduct.sendTransaction(product.id, { from: scope.account });
                 notifications.addTransactionNotification(hash);
                 $rootScope.$apply();
             }

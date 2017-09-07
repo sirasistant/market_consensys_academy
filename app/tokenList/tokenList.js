@@ -42,20 +42,6 @@ module.exports = ['$rootScope', '$timeout', 'market', 'notifications','$location
                 return (amount/Math.pow(10,decimalUnits)).toFixed(decimalsToShow);
             }
 
-            scope.deposit = (token) => {
-                var modalInstance = $uibModal.open({
-                    animation: true,
-                    component: 'depositToken',
-                    resolve: {
-                        token:()=>token
-                    }
-                });
-
-                modalInstance.result.then(() => {
-
-                }, () => { });
-            };
-
             scope.withdraw =async (token) => {
                 var hash = await instance.withdrawTokens.sendTransaction(token.instance.address,{from:scope.account,gas:300000});
                 notifications.addTransactionNotification(hash);

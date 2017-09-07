@@ -59,7 +59,7 @@ contract Shop is Owned,Stoppable {
     internal
     returns (bytes32 id){
         id = sha3(newProduct.name,newProduct.token,newProduct.price);
-        require(productIds[products[id].index]!=id); //Check for hash collisions
+        //require(productIds[products[id].index]!=id); Check for hash collisions
         productIds.push(id);
         newProduct.index = productIds.length-1;
         products[id] = newProduct;

@@ -1,1 +1,2 @@
-<buy-requests ng-if="account&&marketInstance&&groupBuyInstance" account="account" group-buy-instance="groupBuyInstance" market-instance="marketInstance"></buy-requests>
+<money ng-if="account&&groupBuyInstance" instance="groupBuyInstance" account="account"></money>
+<buy-requests ng-if="account&&hubInstance&&groupBuyInstance&&shopInstances" account="account" shop-instances="shopInstances" group-buy-instance="groupBuyInstance" hub-instance="hubInstance"></buy-requests>

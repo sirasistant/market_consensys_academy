@@ -8,8 +8,8 @@ module.exports = ['$rootScope', '$timeout', 'market', 'notifications', function 
         },
         templateUrl: './tokenToolbar/addToken/addToken.html',
         link: function (scope, element, attrs) {
-            var instance = scope.$root.marketInstance;
-            var account = scope.$root.account;
+            var instance = scope.$parent.$resolve.hubInstance;
+            var account = scope.$parent.$resolve.account;
 
             scope.addToken = async () => {
                 try {

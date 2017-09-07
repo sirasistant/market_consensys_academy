@@ -13,7 +13,6 @@
                 <p>Total supply: {{formatAmountWithDecimals(token.totalSupply,token.decimalUnits,2)}}</p>
                 <span class="btn-group pull-right">
                 <button class="btn btn-primary btn-sm " ng-disabled="token.marketBalance<1" ng-click="withdraw(token)">WITHDRAW</button>
-                <button class="btn btn-primary btn-sm " ng-click="deposit(token)">DEPOSIT</button>    
             </span>
                 <div class="clearfix"></div>
             </div>

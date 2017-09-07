@@ -1,3 +1,3 @@
-<toolbar ng-if="account&&marketInstance" instance="marketInstance" account="account"></toolbar>
-<money ng-if="account&&marketInstance" instance="marketInstance" account="account"></money>
-<products ng-if="account&&marketInstance&&groupBuyInstance" account="account" group-buy-instance="groupBuyInstance"  market-instance="marketInstance" ></products>
+<toolbar ng-if="account&&hubInstance&&shopInstances" hub-instance="hubInstance" shop-instances="shopInstances" account="account"></toolbar>
+<money ng-if="account&&hubInstance" instance="hubInstance" account="account"></money>
+<products ng-if="account&&shopInstances&&groupBuyInstance" account="account" hub-instance="hubInstance" group-buy-instance="groupBuyInstance"  shop-instances="shopInstances" ></products>

@@ -1,67 +1,37 @@
 var Promise = require("bluebird");
 
-module.exports = ['$rootScope', '$timeout', 'market', '$uibModal','notifications', function ($rootScope, $timeout, market, $uibModal,notifications) {
+module.exports = ['$rootScope', '$timeout', 'market', '$uibModal', 'notifications', function ($rootScope, $timeout, market, $uibModal, notifications) {
     return {
         restrict: 'E',
         scope: {
             account: "=account",
-            instance: "=instance"
+            hubInstance: "=hubInstance",
+            shopInstances: "=shopInstances"
         },
         templateUrl: './toolbar/toolbar.html',
         link: function (scope, element, attrs) {
 
             var reloadPrivileges = async () => {
-                try {
-                    var instance = scope.instance;
-                    var isAdmin, isSeller = false;
-                    scope.isAdmin = await instance.isAdmin(scope.account);
-                    scope.isSeller = await instance.isSeller(scope.account);
-                    scope.isOwner = await instance.owner() == scope.account;
-                    scope.$apply();
-                } catch (error) {
-                    console.log(error);
-                }
-
+                scope.isSeller = (await Promise.all(scope.shopInstances.map(shop => shop.getSeller())))
+                    .reduce((last, address) => { return last || (address == scope.account); }, false);
+                scope.isOwner = await scope.hubInstance.owner() == scope.account;
+                scope.$apply();
             }
 
             reloadPrivileges();
-
-            scope.openSellers = () => {
-                var modalInstance = $uibModal.open({
-                    animation: true,
-                    component: 'sellers',
-                    resolve: {
-                    }
-                });
-
-                modalInstance.result.then(() => {
-                    reloadPrivileges();
-                }, () => { });
-            };
-
-            scope.openAdmins = () => {
-                var modalInstance = $uibModal.open({
-                    animation: true,
-                    component: 'admins',
-                    resolve: {
-                    }
-                });
-
-                modalInstance.result.then(() => {
-                    reloadPrivileges();
-                }, () => { });
-            }
-
+         
             scope.addProduct = () => {
                 var modalInstance = $uibModal.open({
                     animation: true,
                     component: 'addProduct',
                     resolve: {
+                        shopInstances : ()=>scope.shopInstances,
+                        account: ()=>scope.account,
+                        hubInstance: ()=>scope.hubInstance
                     }
                 });
 
                 modalInstance.result.then(() => {
-
                 }, () => { });
             };
 
@@ -70,6 +40,9 @@ module.exports = ['$rootScope', '$timeout', 'market', '$uibModal','notifications
                     animation: true,
                     component: 'setStock',
                     resolve: {
+                        shopInstances : ()=>scope.shopInstances,
+                        account: ()=>scope.account,
+                        hubInstance: ()=>scope.hubInstance
                     }
                 });
 

@@ -13,13 +13,13 @@ if (typeof web3 !== 'undefined') {
 Promise.promisifyAll(web3.eth, { suffix: "Promise" });
 Promise.promisifyAll(web3.version, { suffix: "Promise" });
 
-var app = angular.module('Market', ['ui.bootstrap','ngRoute']);
+var app = angular.module('Market', ['ui.bootstrap', 'ngRoute']);
 
 app.config(function ($locationProvider) {
     $locationProvider.html5Mode(false);
 });
 
-app.run(['$rootScope', 'market','groupBuy', function ($rootScope, market,groupBuy) {
+app.run(['$rootScope', 'market', 'groupBuy', function ($rootScope, market, groupBuy) {
     web3.eth.getAccountsPromise()
         .then(accounts => {
             if (accounts.length > 0) {
@@ -28,14 +28,27 @@ app.run(['$rootScope', 'market','groupBuy', function ($rootScope, market,groupBu
             }
         }).catch(console.error);
 
-    market.getContract().deployed().then(_instance => {
-        console.log("Contract at " + _instance.address);
-        $rootScope.marketInstance = _instance;
+    market.getHub().deployed().then(_instance => {
+        console.log("Hub contract at " + _instance.address);
+        $rootScope.hubInstance = _instance;
         $rootScope.$apply();
         var events = _instance.allEvents((error, log) => {
             if (!error)
                 $rootScope.$broadcast(log.event, log.args);
             $rootScope.$apply();
+        });
+        market.getShops(_instance).then(shopInstances => {
+            console.log(shopInstances.length+" shops at: "+shopInstances.map(instance=>instance.address).join(", "));
+            $rootScope.shopInstances = shopInstances;
+            $rootScope.$apply();
+            shopInstances.forEach((shop) => {
+                var events = shop.allEvents((error, log) => {
+                    log.args.shopInstance = shop;
+                    if (!error)
+                        $rootScope.$broadcast(log.event, log.args);
+                    $rootScope.$apply();
+                });
+            });
         });
     });
 
@@ -60,8 +73,6 @@ app.directive("products", require("./products/products.js"));
 app.directive("navigation", require("./nav/nav.js"));
 app.directive("toolbar", require("./toolbar/toolbar.js"));
 
-app.directive("sellers", require("./toolbar/sellers/sellers.js"));
-app.directive("admins", require("./toolbar/admins/admins.js"));
 app.directive("addProduct", require("./toolbar/addProduct/addProduct.js"));
 app.directive("setStock", require("./toolbar/setStock/setStock.js"));
 app.directive("money", require("./money/money.js"));
@@ -70,7 +81,6 @@ app.directive("notifications", require("./notifications/notifications.js"));
 app.directive("tokenList", require("./tokenList/tokenList.js"));
 app.directive("tokenToolbar", require("./tokenToolbar/tokenToolbar.js"));
 app.directive("addToken", require("./tokenToolbar/addToken/addToken.js"));
-app.directive("depositToken", require("./depositToken/depositToken.js"));
 
 app.directive("buyRequests", require("./buyRequests/buyRequests.js"));
 app.directive("collaborate", require("./buyRequests/collaborate.js"));
