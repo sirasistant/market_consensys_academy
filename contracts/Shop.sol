@@ -4,13 +4,18 @@ import "./Owned.sol";
 import "./MarketHub.sol";
 import "./Stoppable.sol";
 import "./ERC20.sol";
+import "./oraclizeAPI.sol";
 
-contract Shop is Owned,Stoppable {
+
+contract Shop is Owned,Stoppable,usingOraclize {
     
     event LogAddProduct(bytes32 indexed id);
     event LogStockChanged(bytes32 indexed id);
     event LogBuy(bytes32 indexed id);
     event LogDeleteProduct(bytes32 indexed id);
+    event NewOraclizeQuery(bytes32 indexed id);
+    event Callback(bytes32 indexed id);
+
     
     struct Product{
         uint amount;
@@ -28,6 +33,7 @@ contract Shop is Owned,Stoppable {
     address seller;
     
     mapping(bytes32=>Product) public products;
+    mapping(bytes32=>Product) public pendingProducts;
 
     modifier onlySeller(address account){
         require(seller == account);
@@ -56,7 +62,7 @@ contract Shop is Owned,Stoppable {
         return hub.isAllowedToken(tokenAddress);
     }
     
-    function addProductInternal(Product memory newProduct)
+    function addProductInternal(Product newProduct)
     internal
     returns (bytes32 id){
         id = sha3(newProduct.name,newProduct.token,newProduct.price);
@@ -80,6 +86,50 @@ contract Shop is Owned,Stoppable {
         }
         productIds.length--;
     }
+    
+    function __callback(bytes32 requestId, string result) {
+        Callback(requestId);
+        //require(msg.sender == oraclize_cbAddress());
+        uint ethPrice = stringToUint(result);
+        Product storage toAdd = pendingProducts[requestId];
+        toAdd.price = (toAdd.price*1000000000000000000)/ethPrice;
+        if(toAdd.price>fee){
+            bytes32 id = addProductInternal(toAdd);
+            LogAddProduct(id);
+        }
+        delete pendingProducts[requestId];
+    }
+    
+    function __callback(bytes32 requestId, string result,bytes proof) {
+        Callback(requestId);
+        //require(msg.sender == oraclize_cbAddress());
+        uint ethPrice = stringToUint(result);
+        Product storage toAdd = pendingProducts[requestId];
+        toAdd.price = (toAdd.price*1000000000000000000)/ethPrice;
+        if(toAdd.price>fee){
+            bytes32 id = addProductInternal(toAdd);
+            LogAddProduct(id);
+        }
+        delete pendingProducts[requestId];
+    }
+
+    function addProductInUsd(uint cents,uint amount,bytes32 name) 
+    public
+    payable
+    returns (bool success){
+        require(oraclize_getPrice("URL") < msg.value);
+        Product memory newProduct;
+        newProduct.price = cents;
+        newProduct.amount = amount;
+        newProduct.name = name;
+        newProduct.token = address(0);
+        
+        bytes32 id = oraclize_query("URL", "json(https://api.kraken.com/0/public/Ticker?pair=ETHUSD).result.XETHZUSD.c.0");
+        pendingProducts[id] = newProduct;
+        NewOraclizeQuery(id);
+        return true;
+    }
+    
     
     function addProduct(uint price,uint amount,bytes32 name,address tokenAddress)
     public 
@@ -243,6 +293,21 @@ contract Shop is Owned,Stoppable {
     constant
     returns(address _seller){
         return seller;
+    }
+    
+    function stringToUint(string s) constant returns (uint result) {
+        bytes memory b = bytes(s);
+        uint i;
+        result = 0;
+        for (i = 0; i < b.length; i++) {
+            uint c = uint(b[i]);
+            if (c >= 48 && c <= 57) {
+                result = result * 10 + (c - 48);
+            }else{
+                if(c==46)
+                    break;
+            }
+        }
     }
     
 }
